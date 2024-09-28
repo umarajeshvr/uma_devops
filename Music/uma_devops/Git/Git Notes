@@ -18,3 +18,11 @@ ssh-keygen -t rsa -b 4096 -C "uma98868@gmail.com"
 
 eval "$(ssh-agent -s)"
 ssh-add ~/.ssh/id_rsa
+
+git add . 
+git commit -m "Resolved merge conflicts"
+git push origin main 
+
+git push --force origin main  --> but (with caution):
+
+

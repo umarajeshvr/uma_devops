@@ -1,0 +1,285 @@
+# What is git cherrypick ?
+
+git cherry-pick is a Git command that allows you to apply a specific commit from one branch into your current branch, without merging entire branches.
+Syntax:
+
+bash
+
+git cherry-pick <commit-hash>
+
+Example:
+
+Let’s say you have a commit on another branch that you want to bring into your current branch. You can do the following:
+
+    Identify the commit you want to cherry-pick from another branch using:
+
+    bash
+
+git log
+
+or:
+
+bash
+
+git log <branch>
+
+Once you have the commit hash (e.g., abc123), apply it to your current branch:
+
+bash
+
+    git cherry-pick abc123
+
+Use Cases:
+
+    Selective merging: You only want specific changes from another branch, not the entire branch.
+    Bug fixes: Apply a bug fix commit from one branch into another without merging the entire feature branch.
+
+Handling Conflicts:
+
+Sometimes, conflicts may arise when cherry-picking. Git will notify you, and you’ll have to manually resolve the conflicts and then continue the cherry-pick process:
+
+bash
+
+git cherry-pick --continue
+
+If you want to abort the cherry-pick operation during a conflict:
+
+bash
+
+git cherry-pick --abort
+
+Would you like more information on resolving conflicts or additional examples?
+
+
+
+
+# What is Git, and how does it differ from other version control systems (VCS)?
+
+Answer: Git is a distributed version control system (DVCS) that allows multiple developers to work on a project simultaneously. Unlike centralized VCS (like Subversion or CVS), every developer has a complete copy of the repository, including the full history, on their local machine. This enables operations like commits, diffs, and logs to be performed locally, making Git faster and more flexible.
+
+# What is Git rebase, and how does it differ from Git merge?
+
+Answer:
+ **git rebase** allows you to apply changes from one branch onto another by moving the commits on top of the base branch. **This makes the history linear**. In contrast,
+ 
+ **git merge** integrates changes from one branch into another by creating a new merge commit, preserving the original branching history.
+
+    Use Case for Merge: To preserve a detailed history of when branches were created and merged.
+    Use Case for Rebase: To maintain a cleaner, linear history by avoiding merge commits.
+
+# What are Git stashes, and how do you use them?
+
+Answer: Git stash is a feature used to temporarily save uncommitted changes so that you can work on something else and later reapply the stashed changes.
+
+    Command to stash changes: git stash
+    To apply a stash: git stash apply
+    To list stashes: git stash list
+    To apply and remove the stash: git stash pop
+
+# How do you resolve merge conflicts in Git?
+
+Answer: When Git cannot automatically merge changes, it generates a merge conflict. To resolve:
+
+    Open the conflicting files.
+
+    Manually edit the sections marked with conflict markers (<<<<<, >>>>>>, and =======).
+
+    After resolving, mark the file as resolved:
+
+    bash
+
+git add <filename>
+
+Complete the merge process with:
+
+bash
+
+    git commit
+
+# Explain Git submodules and when you would use them.
+
+Answer: Git submodules allow you to include one Git repository inside another as a subdirectory. It’s useful when working on projects that depend on other repositories, enabling you to keep the dependencies separate but linked to a particular commit.
+
+    Command to add a submodule:
+
+    bash
+
+    git submodule add <repository-url> <path>
+
+# What is the difference between git pull and git fetch?
+
+Answer:
+
+    **git fetch**: Retrieves the latest changes from the remote repository but does not merge them into your local branch.
+    **git pull**: Combines git fetch followed by git merge. It fetches the changes and then automatically merges them into the current branch.
+
+Use git fetch when you want to review changes before merging, and git pull when you're confident about directly integrating the remote changes.
+
+# How does Git handle large binary files and what are the ways to manage them?
+
+Answer: Git isn't optimized for large binary files since it tracks changes at a line level. However, to manage large files efficiently, Git provides tools like Git LFS (Large File Storage). Git LFS stores large binary files externally, keeping only references in the Git repository.
+
+    Commands:
+        git lfs track "*.psd" (tracks .psd files)
+        git lfs install (initializes LFS)
+
+# What is the purpose of Git hooks?
+
+Answer: Git hooks are custom scripts that run automatically in response to Git events such as commits, merges, or pushes. They allow for enforcing certain policies, such as code formatting or running tests before committing.
+
+    Example Hooks:
+        pre-commit: Runs before a commit is made, often used to check code quality.
+        post-merge: Runs after a merge operation, useful for re-building the project.
+
+# How would you handle a situation where a developer accidentally pushes sensitive information (e.g., API keys) into the repository?
+
+Answer:
+
+    Remove the sensitive information from the codebase.
+    Use git filter-branch or git rebase to rewrite history and remove the sensitive data from previous commits.
+
+Example:
+
+bash
+
+git filter-branch --force --index-filter \
+'git rm --cached --ignore-unmatch <file-path>' \
+--prune-empty --tag-name-filter cat -- --all
+
+    Force push the cleaned history:
+
+bash
+
+git push origin --force --all
+
+    Invalidate the exposed keys and rotate credentials.
+
+# Explain Git bisect and how it helps in debugging.
+
+Answer: git bisect is a tool used for finding the specific commit that introduced a bug by using binary search. Git bisects the commit history, asking the user if the selected commit is good or bad, and eventually isolates the problematic commit.
+
+    Start bisecting:
+
+    bash
+
+git bisect start
+
+Mark a commit as bad (contains bug):
+
+bash
+
+git bisect bad
+
+Mark a commit as good (works correctly):
+
+bash
+
+    git bisect good
+
+#  What is a "detached HEAD" in Git and how do you get out of it?
+
+Answer: A "detached HEAD" means that the HEAD is pointing to a specific commit rather than a branch. This happens when you checkout a commit directly, not a branch.
+
+    To get back to a branch:
+
+    bash
+
+git checkout <branch-name>
+
+If you want to save the changes from the detached HEAD:
+
+bash
+
+    git checkout -b <new-branch-name>
+
+# Explain the concept of git reflog.
+
+Answer: git reflog records updates to the tip of branches, including actions like commits, resets, and rebases. It’s useful for recovering commits that are no longer reachable through standard Git operations.
+
+    To see the reflog:
+
+    bash
+
+    git reflog
+
+#  How can you revert a commit that is already pushed to the remote repository?
+
+Answer: If the commit needs to be undone but the history should be preserved, use git revert:
+
+bash
+
+git revert <commit-hash>
+
+This creates a new commit that undoes the changes made in the specified commit. If it's a recent commit that hasn’t affected many people, you can also reset and force-push:
+
+bash
+
+git reset --hard <commit-hash>
+git push --force
+
+# How do you squash multiple commits into a single commit?
+
+Answer: You can squash commits using interactive rebase:
+
+bash
+
+git rebase -i <commit-hash>
+
+
+# diff b/w rebase and squash ?
+
+1. Rebase:
+
+    Purpose: Rebase is used to move a series of commits from one branch onto another, essentially replaying your commits on top of another branch. This helps in keeping the commit history linear and cleaner by avoiding unnecessary merge commits.
+
+    Usage:
+
+    csharp
+
+    git rebase <base-branch>
+
+    How it works:
+        Rebase takes all the commits from your current branch, temporarily removes them, moves the current branch to the tip of the target branch (base branch), and then re-applies your commits on top of that.
+
+    Effect on History:
+        Rewrites history by changing the commit hashes, making it look like the commits were made on top of the latest state of the target branch. It avoids merge commits, resulting in a linear history.
+
+    When to use:
+        You want to integrate changes from another branch (often the main branch) and maintain a clean, linear history.
+
+    Example: If you're on a feature branch and the main branch has received updates, you might rebase your feature branch onto main to ensure it includes the latest changes.
+
+2. Squash:
+
+    Purpose: Squash is used to combine multiple commits into a single commit. This is useful when you want to clean up the commit history by consolidating several smaller commits (like bug fixes or incremental changes) into one.
+
+    Usage:
+        During interactive rebase:
+
+        csharp
+
+    git rebase -i <base-branch>
+
+        Change pick to squash (or s) for the commits you want to squash.
+
+How it works:
+
+    Squash combines the changes of multiple commits into one, so instead of several smaller commits, you end up with a single larger commit.
+    You can choose to edit the commit message to reflect the consolidated changes.
+
+Effect on History:
+
+    The individual commits disappear, and they are replaced by a single commit that contains all the changes.
+
+When to use:
+
+    You want to reduce the number of commits to make the history easier to understand. For example, you might squash all your work into a single commit before merging a feature branch into the main branch.
+
+Example: If you have made multiple commits like:
+
+    Fix bug
+    Refactor method
+    Update README
+    Another bug fix
+
+You can squash these into one commit with a clear message that summarizes the work.
