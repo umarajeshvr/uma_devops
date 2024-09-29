@@ -228,6 +228,9 @@ git rebase -i <commit-hash>
 
 # diff b/w rebase and squash ?
 
+
+
+
 1. Rebase:
 
     Purpose: Rebase is used to move a series of commits from one branch onto another, essentially replaying your commits on top of another branch. This helps in keeping the commit history linear and cleaner by avoiding unnecessary merge commits.
@@ -283,3 +286,67 @@ Example: If you have made multiple commits like:
     Another bug fix
 
 You can squash these into one commit with a clear message that summarizes the work.
+
+# What is Git fork? What is difference between fork, branch and clone?
+
+    **A fork** : is a remote, server-side copy of a repository, distinct from the original. A fork isn't a Git concept really, it's more a political/social idea.
+    **A clone** : is not a fork; a clone is a local copy of some remote repository. When you clone, you are actually copying the entire source repository, including all the history and branches.
+    **A branch** : is a mechanism to handle the changes within a single repository in order to eventually merge them with the rest of code. A branch is something that is within a repository. Conceptually, it represents a thread of development.
+
+# How to revert previous commit in git?
+Say you have this, where C is your HEAD and (F) is the state of your files.
+
+   (F)
+A-B-C
+    ↑
+  master
+
+    To nuke changes in the commit:
+
+git reset --hard HEAD~1
+
+Now B is the HEAD. Because you used --hard, your files are reset to their state at commit B.
+
+    To undo the commit but keep your changes:
+
+git reset HEAD~1
+
+Now we tell Git to move the HEAD pointer back one commit (B) and leave the files as they are and git status shows the changes you had checked into C.
+
+    To undo your commit but leave your files and your index
+
+git reset --soft HEAD~1
+
+When you do git status, you'll see that the same files are in the index as before.
+
+# Diff b/w reset & revert in git ?
+
+Both git reset and git revert are used to undo changes in Git, but they work in different ways and are used in different scenarios.
+
+**𝗴𝗶𝘁 𝗿𝗲𝘀𝗲𝘁:**
+
+    Purpose: git reset is used to move the HEAD pointer and potentially modify the index and working directory to reflect an earlier commit. It's a more destructive command because it can remove commits from the branch history.
+
+    Types of reset:
+        --soft: Moves the HEAD pointer to a specific commit but keeps the changes from the reset commit(s) staged in the index.
+        --mixed (default): Moves the HEAD pointer to a specific commit, unstages the changes from the reset commit(s), but keeps the changes in the working directory.
+        --hard: Moves the HEAD pointer to a specific commit and discards all changes in the index and working directory, effectively making the history look as if the commit(s) never happened.
+
+    Use case: If you want to change the history of your branch (such as removing commits or unstaging changes) before sharing the branch with others. Usually used for local changes.
+
+    Risk: Can be dangerous when you've already shared the changes with others, as it rewrites commit history.
+
+**𝗴𝗶𝘁 𝗿𝗲𝘃𝗲𝗿𝘁:**
+
+    Purpose: git revert creates a new commit that undoes the changes made in a previous commit without altering the history of the repository. It is a safe way to undo changes because the original commit remains in the history.
+
+    How it works: git revert takes a specific commit and applies the inverse of the changes introduced by that commit as a new commit. For example, if a commit added a file, the revert commit would remove that file.
+
+    Use case: Ideal for undoing changes on a shared branch because it doesn’t rewrite history. You can safely undo changes without affecting other contributors' work.
+
+    Risk: There’s little risk with git revert since it doesn’t alter the history in a destructive way.
+
+Summary:
+
+    Use 𝗴𝗶𝘁 𝗿𝗲𝘀𝗲𝘁 to move HEAD and potentially remove or modify commit history (for local changes).
+    Use 𝗴𝗶𝘁 𝗿𝗲𝘃𝗲𝗿𝘁 to undo changes safely by creating new commits that reverse previous changes (for shared branches).
