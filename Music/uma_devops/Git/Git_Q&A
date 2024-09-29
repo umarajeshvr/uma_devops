@@ -228,9 +228,6 @@ git rebase -i <commit-hash>
 
 # diff b/w rebase and squash ?
 
-
-
-
 1. Rebase:
 
     Purpose: Rebase is used to move a series of commits from one branch onto another, essentially replaying your commits on top of another branch. This helps in keeping the commit history linear and cleaner by avoiding unnecessary merge commits.
