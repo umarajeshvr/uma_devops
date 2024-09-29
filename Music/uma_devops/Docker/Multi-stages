@@ -1,0 +1,45 @@
+# What is the multi stage in dockerfile ?
+
+
+In a Dockerfile, multi-stage builds are a technique used to reduce the final image size by allowing you to use multiple FROM statements to define different stages. This approach enables you to build your application in one stage and copy only the necessary artifacts (such as compiled binaries) to a smaller, final image, without including all the dependencies used during the build process.
+How Multi-Stage Builds Work:
+
+    First Stage (Build Stage): In the first stage, you build your application. This stage might involve installing compilers, build tools, and other dependencies needed for the build process.
+
+    Subsequent Stage (Final Stage): In the subsequent stage, you create a new, smaller image where you copy only the necessary files (e.g., the built binary or application) from the previous stage. You don’t need to include the heavy build dependencies anymore.
+
+Syntax:
+
+Here’s an example Dockerfile with a multi-stage build:
+
+Dockerfile
+
+# First stage (build stage)
+FROM golang:1.18 AS builder
+WORKDIR /app
+COPY . .
+RUN go build -o myapp
+
+# Second stage (final image)
+FROM alpine:latest
+WORKDIR /root/
+COPY --from=builder /app/myapp .
+CMD ["./myapp"]
+
+Breakdown:
+
+    First Stage (FROM golang:1.18 AS builder):
+        It uses the Go language image to build the application.
+        The build happens in this stage using the Go compiler.
+
+    Second Stage (FROM alpine:latest):
+        This stage uses a minimal alpine base image.
+        It copies the built myapp binary from the first stage (COPY --from=builder /app/myapp).
+        This results in a much smaller final image, since it only includes the compiled application and skips all the build dependencies.
+
+Benefits of Multi-Stage Builds:
+
+    Smaller image sizes: By discarding unnecessary build dependencies in the final image, the size of the image is reduced significantly.
+    Separation of concerns: You can have separate stages for building and running the application, ensuring a cleaner environment in production.
+
+Multi-stage builds are especially useful in CI/CD pipelines and production environments where keeping image sizes small and efficient is important.
