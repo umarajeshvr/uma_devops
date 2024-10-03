@@ -400,7 +400,7 @@ Answer: Some common pitfalls in using Terraform include:
 
     **Drift between Configuration and Real Resources:
 
-19. What are Terraform Provisioners, and when should they be used or avoided?
+# 32. What are Terraform Provisioners, and when should they be used or avoided?
 
 Answer: Provisioners are used in Terraform to execute scripts on a local machine or on a remote resource (such as a virtual machine) after it has been created or before it is destroyed.
 
@@ -436,7 +436,7 @@ When to avoid:
     State Problems: Provisioners can make it difficult to track changes or recreate environments, as Terraform doesn’t capture their effects in the state file.
     Alternatives: Use cloud-init, user-data, or configuration management tools like Ansible, Puppet, or Chef, which are more reliable and integrate better with infrastructure-as-code.
 
-20. How do you handle large scale infrastructure changes with minimal downtime using Terraform?
+# 33. How do you handle large scale infrastructure changes with minimal downtime using Terraform?
 
 Answer: Managing large-scale infrastructure changes with minimal downtime requires careful planning and the use of best practices like rolling updates, blue/green deployments, and controlled updates:
 
@@ -466,7 +466,7 @@ Answer: Managing large-scale infrastructure changes with minimal downtime requir
     Use count, for_each, and Conditional Logic:
         For scenarios where certain resources or infrastructure components need staged creation, use conditional logic with count and for_each to handle gradual deployments.
 
-21. Can you explain Terraform Backends and their role in managing state?
+# 34. Can you explain Terraform Backends and their role in managing state?
 
 Answer: Terraform Backends determine how and where Terraform stores its state files. By default, Terraform stores state locally, but using remote backends allows for collaboration, state locking, and improved security.
 
@@ -505,7 +505,7 @@ hcl
       }
     }
 
-22. How would you handle multi-region deployments with Terraform?
+# 35. How would you handle multi-region deployments with Terraform?
 
 Answer: Handling multi-region deployments with Terraform involves organizing your infrastructure configurations in a way that scales and supports resources deployed across multiple regions.
 
@@ -559,7 +559,7 @@ hcl
 
     Data Replication Across Regions: If resources (like databases) need to be replicated across regions, Terraform can configure services such as AWS Route 53, S3 Cross-Region Replication, or RDS multi-region deployments.
 
-23. How do you manage infrastructure drift and ensure it doesn’t affect your deployments?
+# 36. How do you manage infrastructure drift and ensure it doesn’t affect your deployments?
 
 Answer: Drift happens when the real infrastructure diverges from what’s defined in your Terraform configuration. Drift can be caused by manual changes or external systems modifying the infrastructure.
 
@@ -577,7 +577,7 @@ Strategies to manage and prevent drift:
 
     Enforce Immutable Infrastructure: Use immutable infrastructure practices (e.g., instance termination and recreation) rather than making in-place updates to prevent drift due to manual configuration changes.
 
-24. How does Terraform interact with external data sources, and when would you use data blocks?
+# 37. How does Terraform interact with external data sources, and when would you use data blocks?
 
 Answer: Data sources in Terraform allow you to fetch or reference information from external systems (like AWS, Azure, etc.) that already exist outside of Terraform's control or were created in other ways. This can include querying things like VPCs, AMIs, security groups, and more.
 
@@ -588,6 +588,200 @@ Use cases for data blocks:
     hcl
 
     data "aws_vpc" "example
+
+Terraform Interview questions:
+
+
+# 38. Are callbacks possible with Terraform on Azure?
+By using the Azure Event Hubs, callbacks are probable on Azure. 
+Terraform’s Azure supplier provides effortless functionality to users. 
+Microsoft Azure Cloud Shell provides an already installed Terraform occurrence.
+
+# 39.What is Terraform D?
+
+Terraform D is a plugin used on most in-service systems and Windows. Terraform init by default searches next directories for plugins
+
+# 40.Define null resource in Terraform ?
+null_resource implements standard resource library, but no further action is taken. 
+The triggers argument allows an arbitrary set of values that will cause the replacement of resources when changed.
+
+
+# 41. What is a Private Module Registry?
+A Private Module Registry is a feature from Terraform Cloud that allows you to share Terraform modules across the organization.
+ You can enforce rules or “sentinel policies” on the registry that specify how members of your organization can use the modules.
+
+# 42. Does Terraform support multi-provider deployments?
+Yes, multi-provider deployments are supported by Terraform, which includes on-prem like Openstack, VMware, and 
+we can manage SDN even using Terram too.
+
+# 43. How is duplicate resource error ignored during terraform apply?
+We can try the following options:
+
+Delete those resources from the cloud provider(API) and recreate them using Terraform
+Delete those resources from Terraform code to stop its management with it
+Carry out a terraform import of the resource and remove the code that is trying to recreate them.
+
+# 44.What are some of the built-in provisioners available in Terraform?
+Here is the list of built-in provisioners in Terraform:
+
+Salt-masterless Provisioner
+Remote-exec Provisioner
+Puppet Provisioner
+Local-exec Provisioner
+Habitat Provisioner
+File Provisioner
+Chef Provisioner
+
+# 45. What are the components of Terraform architecture?
+The Terraform architecture includes the following features:
+
+Sub-graphs
+Expression Evaluation
+Vertex Evaluation
+Graph Walk
+Graph Builder
+State Manager
+Configuration Loader
+CLI (Command Line interface)
+Backend
+
+# 46. Define Resource Graph in Terraform.
+A resource graph is a visual representation of the resources. It helps modify and create independent resources simultaneously.
+Terraform establishes a plan for the configuration of the graph to generate plans and refresh the state. 
+It creates structure most efficiently and effectively to help us understand the drawbacks.
+
+14. What are the various levels of Sentinel enforcement?
+Sentinel has three enforcement levels - advisory, soft mandatory, and hard mandatory.
+
+Advisory - Logged but allowed to pass. An advisory is issued to the user when they trigger a plan that violates the policy.
+Soft Mandatory - The policy must pass unless an override is specified. Only administrators have the ability to override.
+Hard Mandatory - The policy must pass no matter what. This policy cannot be overridden unless it is removed. 
+It is the default enforcement level in Terraform.
+
+# 47. How to Store Sensitive Data in Terraform?
+Terraform requires credentials to communicate with your cloud provider's API. 
+But most of the time, these credentials are saved in plaintext on your desktop.
+ GitHub is exposed to thousands of API and cryptographic keys every day. Hence, your API keys should never be stored in Terraform code directly.  
+You should use encrypted storage to store all your passwords, TLS certificates, SSH keys, and anything else that shouldn't be stored in plain text.
+
+
+
+# 48. What do you understand by a Tainted Resource?
+A tainted resource is a resource that is forced to be destroyed and recreated on the next apply command.
+When a resource is marked as tainted, the state files are updated, but nothing changes on infrastructure. 
+The terraform plan out shows that help will get destroyed and recreated. 
+The changes get implemented when the next apply happens.
+
+# 49.  How will you upgrade plugins on Terraform?
+Run ‘terraform init’ with ‘-upgrade’ option. This command rechecks the releases.hashicorp.com to find new acceptable provider versions. 
+It also downloads available provider versions.“.terraform/plugins/<OS>_<ARCH>” is the automatic downloads directory.
+
+# 50. What is Terraform Directory?
+Answer: Terraform Directory, which Terraform uses to manage cached provider plugins and modules, 
+as well as to record which workspace is currently active and the last known backend configuration in case state needs to be migrated on the next run.
+
+# 51. What is the external data block in Terraform?
+
+Answer: The external data source allows an external programme to act as a data source by exposing arbitrary data for use elsewhere in the Terraform
+configuration by implementing a specific protocol (defined below).
+
+# 51. What happens when multiple engineers start deploying infrastructure using the same state file?
+Answer: Terraform has a critical feature known as “state locking.” This feature ensures that no changes to the state file are made during a run,
+preventing the state file from becoming corrupt. It is important to note that the state locking feature is not supported by all Terraform Backends. 
+If this feature is required, you should select the appropriate backend.
+
+# 52. What is Terraform Core? Tell us some primary responsibilities of it.
+Answer: Terraform Core is a binary written statically compiled by using the Go programming language. 
+The compiled binary offers an entry point for the users of Terraform. The primary responsibilities include:
+
+Reading and interpolation of modules and configuration files by Infrastructure as code functionalities
+Resource Graph Construction
+Plugin communication through RPC
+Plan execution
+Management of resource state
+
+============================================================================
+# Terraform commands: 
+
+terraform –version	Shows terraform version installed
+terraform init	Initialize a working directory
+terraform init -input=true	Ask for input if necessary
+terraform init -lock=false	Disable locking of state files during state-related operations
+terraform get	downloads and update modules mentioned in the root module
+terraform get -update=true	modules already downloaded will be checked for updates and updated
+
+Provision infrastructure:
+
+terraform plan	Creates an execution plan (dry run)
+terraform plan -out=path	save generated plan output as a file
+terraform plan -destroy	Outputs a destroy plan
+terraform apply	Executes changes to the actual environment
+terraform apply –auto-approve	Apply changes without being prompted to enter ”yes”
+terraform apply -refresh=true	Update the state for each resource prior to planning and applying
+terraform apply -input=false	Ask for input for variables if not directly set
+terraform apply -var ‘foo=bar’	Set a variable in the Terraform configuration, can be used multiple times
+terraform apply -var-file=foo	Specify a file that contains key/value pairs for variable values
+terraform apply -target	Only apply/deploy changes to the targeted resource
+terraform destroy –auto-approve	Destroy/cleanup without being prompted to enter ”yes”
+terraform destroy -target	Only destroy the targeted resource and its dependencies
+
+Terraform Workspaces:
+
+terraform workspace new	Create a new workspace and select it
+terraform workspace select	Select an existing workspace
+terraform workspace list	List the existing workspaces
+terraform workspace show	Show the name of the current workspace
+terraform workspace delete	Delete an empty workspace
+
+Format and validate Terraform Code:
+
+terraform fmt	Format code as per HCL canonical standard
+terraform validate	validate configuration files for syntax
+
+Inspect Infrastructure:
+
+terraform graph	creates a resource graph listing all resources in your configuration and their dependencies.
+terraform output	List all the outputs for the root module
+terraform output instance_public_ip	List only the specified output
+terraform output -json	List all the outputs in JSON format
+terraform show	provide human-readable output from a state or plan file
+
+Terraform Import: 
+
+terraform import aws_instance.foo i-abcd1234	import an AWS instance with ID i-abcd1234 into aws_instance resource named “foo”
+
+Terraform State Manipulation:
+
+terraform state list	list all resources in the state file
+terraform state list aws_instance.my_ec2	Only list resource with the given name
+terraform state mv	move an item in the state file
+terraform state rm	Remove items from the state file
+terraform state pull	Pull current state and output to stdout
+terraform state push	Update remote state from a local state file
+terraform state show aws_instance.my_ec2	Show the attributes of a single resource
+terraform state refresh
+
+Terraform miscellaneous commands:
+
+echo “1 + 5” | terraform console	Display expected result of an expression as output
+terraform taint aws_instance.my_ec2	marks a Terraform-managed resource as tainted, forcing it to be destroyed and recreated on the next apply
+terraform untaint aws_instance.my_ec2	unmarks a Terraform-managed resource as tainted
+terraform force-unlock LOCK_ID	removes the lock on the state for the current configuration
+terraform login	obtain and save an API token for Terraform Cloud
+terraform logout	remove credentials stored by terraform login
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 https://chatgpt.com/share/66f99f9a-88f4-800d-88c4-afe831fa4ae6
 

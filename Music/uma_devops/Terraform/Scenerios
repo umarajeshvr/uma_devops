@@ -1,0 +1,33 @@
+# If suppose statefile got deleted in s3 bucket so how do you recover it ? 
+
+
+1. Check if S3 Bucket Versioning is Enabled
+If versioning is enabled on the S3 bucket, you can restore a previous version of the state file.
+To check for versioning:
+Go to the S3 bucket in the AWS Management Console.
+Navigate to the folder where the state file was stored.
+Enable the "Show versions" option.
+Look for the deleted state file (it will have a "Delete marker" version) and restore the previous version.
+2. Check S3 Lifecycle Policies
+If there are S3 lifecycle policies configured to transition or archive old versions, check if a backup or archived version (e.g., in Glacier) is available.
+Restoring files from Glacier or a different storage class may take some time, depending on the configuration.
+3. CloudTrail Logs (if Versioning is Not Enabled)
+If versioning was not enabled and the file was deleted, use AWS CloudTrail logs to identify when and by whom the file was deleted.
+While you can't directly recover a file using CloudTrail, the logs can help determine whether there was any accidental deletion.
+4. Check for Manual Backups
+If you have been taking manual backups of your state file (e.g., copying it periodically to a different bucket or storage), you can restore from the latest backup.
+Alternatively, check if your CI/CD pipelines store state file backups as part of the deployment process.
+5. Use Terraform Remote State Snapshot (for Terraform State)
+If you are using Terraform's remote state feature (with a backend like S3), Terraform may keep a local copy or snapshot of the last known state.
+Check if there are any .tfstate.backup files or other state-related snapshots in your Terraform configuration directory.
+6. Contact AWS Support
+If none of the above methods work and the state file is critical, you can contact AWS Support.
+They may be able to assist in recovering deleted data, especially if it was deleted recently and S3 versioning was not enabled.
+
+
+
+# How will you control and handle rollbacks when something goes wrong?
+
+I need to recommit the previous code version to be the new and current version in my VCS. This would trigger as terraform run, 
+which would be responsible for running the old code. As Terraform is more declarative, I will make sure all things in the code roll back to the old code.
+I would use the State Rollback Feature of Terraform Enterprise to roll back to the latest state if the state file got corrupted.

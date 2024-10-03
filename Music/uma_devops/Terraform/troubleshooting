@@ -128,3 +128,8 @@ Answer: The following are the steps to take in order to make an object from one 
 First, in a resource configuration, an output variable must be defined. The scope of local and to a module is not declared until you declare resource configuration details.
 You must now declare the output variable of module A so that it can be used in the configurations of other modules. You should create a brand new and current key name, and the value should be kept equal to the module A output variable.
 You must now create a file variable.tf for module B. Create an input variable inside this file with the same name as the key you defined in module B. This variable in a module enables the resource’s dynamic configuration. Rep the process to make this variable available to another module as well. This is due to the fact that the variable established here has a scope limited to module B.
+
+#   How would you recover from a failed apply in Terraform?
+Answer: You can save your configuration in version control and commit it before making any changes, and then use the features of your version
+control system to revert to an earlier configuration if necessary. You must always recommit the previous version code in order for it to be the
+new version in the version control system.

@@ -205,7 +205,7 @@ Use Small Base Images: Prefer minimal base images (e.g.,**alpine**) to reduce im
         Reducing the size of the build context, leading to faster builds.
         Preventing sensitive files (like .git directories, .env files, or development logs) from being added to the Docker image.
 
-# 12. How can you troubleshoot an issues in a Dockerfile?
+# 12. Execuiting Dockerfile while having issues?
 
     Answer:
         Check the Build Logs: Review the output from docker build to identify which step is failing.
