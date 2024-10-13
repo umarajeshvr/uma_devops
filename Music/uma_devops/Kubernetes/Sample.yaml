@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mypod
+spec:
+  containers:
+  - name: mypod1
+    image: sreeharshav/rollingupdate:v1
+    volumeMounts:
+     - name: testvol
+        mountPath: /tmp/testvolume
+  volumes:
+     - name: testvol
+       emptyDir: {}
+
+
+apiVersion: v2
+kind: pod
+metadata:
+  name: mypod1
+spec:
+  containers:
+    - name: mypod1
+      image: sreeharshav/rollingupdate:v1
+      volumeMounts:
+        - name: testv01
+          mountPath: /tmp/testvolume
+  volumes:
+    - name: testv01
+      emptyDir: {}
