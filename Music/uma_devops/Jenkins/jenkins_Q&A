@@ -12,8 +12,7 @@
             Extensive plugin support (over 1,500 plugins)
             Pipeline as code using Jenkinsfile
 
-# What is a Jenkins pipeline?
-        Answer: A Jenkins pipeline is a suite of plugins that support implementing and integrating continuous delivery pipelines into Jenkins. It allows defining the entire build process as code using a "Jenkinsfile," which can be versioned with your source code.
+
 
 #  How do you install Jenkins?
         Answer:
@@ -624,7 +623,7 @@ pipeline {
                 }
             }
         }
-        stage('Traffic Split') {
+        <!-- stage('Traffic Split') {
             steps {
                 script {
                     echo "Splitting traffic between stable and canary..."
@@ -637,7 +636,7 @@ pipeline {
                     """
                 }
             }
-        }
+        } -->
         stage('Monitor') {
             steps {
                 script {
@@ -896,7 +895,7 @@ Additional Considerations
             }
         }
 
-        Use a Jenkins plugin like "Parallel Test Executor" to distribute tests dynamically based on workload.
+Use a Jenkins plugin like "**Parallel Test Executor**" to distribute tests dynamically based on workload.
 
 # Scenario 6: Managing Environment-Specific Configurations
 
@@ -905,7 +904,7 @@ Additional Considerations
     Answer: To manage environment-specific configurations:
         Use parameterized Jenkins jobs to specify the environment.
         Store configurations in external configuration management tools (e.g., HashiCorp Vault, AWS Secrets Manager) or environment-specific configuration files.
-        Use a multi-branch pipeline to handle different configurations for different branches (e.g., dev, staging, prod).
+Use a **multi-branch pipeline** to handle different configurations for different branches (e.g., dev, staging, prod).
         Example using environment variables:
 
         groovy
@@ -942,15 +941,19 @@ Additional Considerations
         Create Grafana dashboards to visualize Jenkins metrics for real-time monitoring.
         Set up alerts in Grafana to notify the team when build metrics exceed thresholds.
 
-Scenario 9: Implementing Continuous Delivery for Microservices
+# Scenario 9: Implementing Continuous Delivery for Microservices
 
-Q: You are tasked with setting up a continuous delivery pipeline for a microservices architecture. How would you approach this using Jenkins?
+**Q: You are tasked with setting up a continuous delivery pipeline for a microservices architecture. How would you approach this using Jenkins?**
 
     Answer: To implement a continuous delivery pipeline for microservices:
+
         Create separate Jenkins pipelines for each microservice to allow independent builds, tests, and deployments.
+
         Use a shared library in Jenkins for common functions, making it easier to maintain.
         Implement service discovery and orchestration tools (e.g., Kubernetes) to manage deployments.
+        
         Trigger deployments to staging environments automatically after successful builds and run integration tests.
+
         Implement manual approval steps for production deployments, if necessary, to ensure quality.
         Example pipeline for a microservice:
 
@@ -988,10 +991,10 @@ Q: You are tasked with setting up a continuous delivery pipeline for a microserv
             }
         }
 
-Scenario 10: Securing Jenkins with Role-Based Access Control
+# Scenario 10: Securing Jenkins with Role-Based Access Control
 
-Q: Your organization requires strict access control for Jenkins users. How would you implement role-based access control (RBAC) in Jenkins?
-
+**Q: Your organization requires strict access control for Jenkins users. How would you implement role-based access control (RBAC) in Jenkins?
+**
     Answer: To implement RBAC in Jenkins:
         Install the "Role-based Authorization Strategy" plugin.
         Define roles (e.g., Admin, Developer, Tester) with specific permissions for each role.
@@ -999,24 +1002,28 @@ Q: Your organization requires strict access control for Jenkins users. How would
         Ensure sensitive jobs and configurations are only accessible by authorized users.
         Regularly review roles and permissions to maintain security.
 
-Scenario 11: Handling Performance Issues in Jenkins
+# Scenario 11: Handling Performance Issues in Jenkins
 
-Q: You notice that Jenkins is becoming slow and unresponsive. What steps would you take to diagnose and resolve performance issues?
+**Q: You notice that Jenkins is becoming slow and unresponsive. What steps would you take to diagnose and resolve performance issues?**
 
     Answer: To address performance issues:
         Check system resources (CPU, memory, disk space) to ensure Jenkins has adequate resources.
         Analyze the Jenkins logs for errors or warnings.
+
         Review the number of concurrent builds and consider scaling out by adding more Jenkins agents.
+
         Remove old builds and artifacts using the "Discard Old Builds" settings.
+
         Review and optimize plugins to ensure they’re not causing delays.
         Consider using the "Jenkins Metrics" plugin to monitor performance metrics over time.
 
-Scenario 12: Using Jenkins for Database Migrations
 
-Q: Your application requires regular database migrations. How would you set up Jenkins to handle this process?
+# Scenario 12: Using Jenkins for Database Migrations
+
+**Q: Your application requires regular database migrations. How would you set up Jenkins to handle this process?**
 
     Answer: To manage database migrations:
-        Use a migration tool (e.g., Flyway, Liquibase) and integrate it into your Jenkins pipeline.
+Use a migration tool (e.g., **Flyway**, **Liquibase**) and integrate it into your Jenkins pipeline.
         Create a pipeline stage specifically for executing database migrations before deploying the application.
         Ensure that migrations are run only when there are schema changes to avoid unnecessary executions.
         Monitor migration success and failures, sending alerts if issues arise during the process.
@@ -1030,14 +1037,18 @@ Q: Your application requires regular database migrations. How would you set up J
             }
         }
 
-Scenario 13: Multi-Branch Pipeline Setup
+# Scenario 13: Multi-Branch Pipeline Setup
 
-Q: Your team follows a branching strategy and wants to use Jenkins to automate builds for multiple branches. How would you set up a multi-branch pipeline in Jenkins?
+**Q: Your team follows a branching strategy and wants to use Jenkins to automate builds for multiple branches. How would you set up a multi-branch pipeline in Jenkins?**
 
     Answer: To configure a multi-branch pipeline:
+
         Use the "Multibranch Pipeline" feature in Jenkins.
+
         Configure the job to scan the repository and automatically create jobs for each branch that contains a Jenkinsfile.
+
         Customize each branch’s pipeline configuration based on branch-specific needs (e.g., different deployment targets).
+
         Enable PR (pull request) builds to validate code changes before merging.
         Example job configuration:
 
@@ -1065,12 +1076,12 @@ Q: Your team follows a branching strategy and wants to use Jenkins to automate b
             }
         }
 
-Scenario 14: Testing for Security Vulnerabilities
+# Scenario 14: Testing for Security Vulnerabilities?
 
-Q: You need to ensure that code changes do not introduce security vulnerabilities. How would you integrate security testing into your Jenkins pipeline?
+**Q: You need to ensure that code changes do not introduce security vulnerabilities. How would you integrate security testing into your Jenkins pipeline?**
 
     Answer: To integrate security testing:
-        Use security analysis tools (e.g., SonarQube, Snyk, OWASP ZAP) and integrate them into the pipeline.
+Use security analysis tools (e.g., **SonarQube, Snyk, OWASP ZAP**) and integrate them into the pipeline.
         Add stages to the pipeline for static code analysis and dependency scanning.
         Set quality gates that must be passed before proceeding with deployment.
         Configure alerts to notify the team of any detected vulnerabilities.
@@ -1084,33 +1095,37 @@ Q: You need to ensure that code changes do not introduce security vulnerabilitie
             }
         }
 
-Scenario 15: Migrating from a Legacy CI/CD System
+# Scenario 15: Migrating from a Legacy CI/CD System
 
-Q: Your company is migrating from a legacy CI/CD system to Jenkins. What steps would you take to ensure a smooth transition?
+**Q: Your company is migrating from a legacy CI/CD system to Jenkins. What steps would you take to ensure a smooth transition?**
 
     Answer: To manage the migration:
         Assess the current CI/CD processes and identify the jobs that need to be migrated.
+
         Recreate the pipeline structures in Jenkins using either Freestyle jobs or Pipeline jobs.
+
         Convert any existing scripts or configurations to work with Jenkins.
         Validate the migrated jobs by running them in a staging environment before going live.
         Provide training for team members to familiarize them with Jenkins.
         Implement monitoring and logging to ensure smooth operation post-migration.
 
-Scenario 16: Building a Custom Jenkins Plugin
+# Scenario 16: Building a Custom Jenkins Plugin
 
-Q: You need a specific feature that isn't available in existing Jenkins plugins. How would you approach building a custom Jenkins plugin?
+**Q: You need a specific feature that isn't available in existing Jenkins plugins. How would you approach building a custom Jenkins plugin?**
 
     Answer: To build a custom plugin:
+
         Set up a development environment using the Jenkins Plugin Parent POM.
+        
         Use the "Jenkins Plugin Tutorial" to get started with creating a basic plugin structure.
         Implement the required functionality using Java and the Jenkins API.
         Write tests for your plugin to ensure reliability.
         Package the plugin and install it on your Jenkins instance for testing.
         Publish the plugin to the Jenkins update center if it’s suitable for wider use.
 
-Scenario 17: Using Docker in Jenkins Pipelines
+# Scenario 17: Using Docker in Jenkins Pipelines
 
-Q: How would you leverage Docker in your Jenkins pipelines to ensure consistent environments for builds?
+**Q: How would you leverage Docker in your Jenkins pipelines to ensure consistent environments for builds?**
 
     Answer: To use Docker in Jenkins pipelines:
         Use the "Docker Pipeline" plugin to define stages that run inside Docker containers.
@@ -1134,11 +1149,11 @@ Q: How would you leverage Docker in your Jenkins pipelines to ensure consistent 
             }
         }
 
-        This ensures that every build runs in a clean, consistent environment.
+This ensures that every build runs in a clean, consistent environment.
 
-Scenario 18: Monitoring Jenkins Job Status with External Tools
+# Scenario 18: Monitoring Jenkins Job Status with External Tools
 
-Q: Your team wants to receive notifications about Jenkins job statuses through Slack. How would you set this up?
+**Q: Your team wants to receive notifications about Jenkins job statuses through Slack. How would you set this up?**
 
     Answer: To send notifications to Slack:
         Install the "Slack Notification" plugin in Jenkins.
@@ -1157,9 +1172,9 @@ Q: Your team wants to receive notifications about Jenkins job statuses through S
             }
         }
 
-Scenario 19: Integrating with Third-Party Services
+# Scenario 19: Integrating with Third-Party Services
 
-Q: How would you integrate Jenkins with third-party services like JIRA for issue tracking?
+**Q: How would you integrate Jenkins with third-party services like JIRA for issue tracking?**
 
     Answer: To integrate Jenkins with JIRA:
         Use the "JIRA Plugin" to create links between Jenkins jobs and JIRA issues.
@@ -1167,13 +1182,13 @@ Q: How would you integrate Jenkins with third-party services like JIRA for issue
         Update JIRA issues automatically using build triggers or post-build actions to transition issues based on build results.
         Use commit messages that reference JIRA issue keys, which can be linked in Jenkins builds to provide context.
 
-Scenario 20: Handling Resource Constraints in Jenkins
+# Scenario 20: Handling Resource Constraints in Jenkins
 
-Q: Your Jenkins master is running out of memory and affecting performance. What strategies would you employ to optimize resource usage?
+**Q: Your Jenkins master is running out of memory and affecting performance. What strategies would you employ to optimize resource usage?**
 
     Answer: To manage resource constraints:
         Scale out by adding more Jenkins agents to distribute workloads.
-        Monitor memory usage and adjust the Java heap size for Jenkins (JAVA_OPTS).
+ Monitor memory usage and adjust the **Java heap size for Jenkins (JAVA_OPTS**).
         Optimize jobs by cleaning up workspace files after builds.
         Disable unnecessary plugins to reduce overhead.
 
