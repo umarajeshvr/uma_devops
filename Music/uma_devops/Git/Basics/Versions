@@ -1,0 +1,16 @@
+#git --version 
+ 2.46
+
+Helm chart version
+#helm --version 
+v3.15.1 
+
+#argocd version
+
+ArgoCD version -->v2.12
+
+eks version --> 1.31 
+
+============================================
+
+Jenkins ---> 2.46

@@ -50,9 +50,6 @@ git cherry-pick --abort
 
 Would you like more information on resolving conflicts or additional examples?
 
-
-
-
 # What is Git, and how does it differ from other version control systems (VCS)?
 
 Answer: Git is a distributed version control system (DVCS) that allows multiple developers to work on a project simultaneously. Unlike centralized VCS (like Subversion or CVS), every developer has a complete copy of the repository, including the full history, on their local machine. This enables operations like commits, diffs, and logs to be performed locally, making Git faster and more flexible.

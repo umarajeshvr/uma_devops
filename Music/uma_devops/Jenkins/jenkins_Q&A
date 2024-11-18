@@ -12,8 +12,6 @@
             Extensive plugin support (over 1,500 plugins)
             Pipeline as code using Jenkinsfile
 
-
-
 #  How do you install Jenkins?
         Answer:
  Download the Jenkins .war file and run it using the command **java -jar** jenkins.war
