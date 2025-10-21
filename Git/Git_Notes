@@ -25,8 +25,9 @@ git add .
 git commit -m "Resolved merge conflicts"
 git push origin main 
 
-
+git remote add origin https://github.com/umarajeshvr/uma_devops
 git push --force origin main  --> but (with caution):
+git push -u origin main
 
 
 
