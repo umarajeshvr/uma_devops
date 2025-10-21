@@ -1,0 +1,31 @@
+#terraform code to deploy ec2 and vpc
+
+provider = "aws"
+{
+    parameters = ec2,vpc
+}
+
+===================================================
+
+Pipeline
+stages
+{
+    provider="aws"
+    steps
+    { 
+      steps
+      {
+        build"deploy build"
+       echo"build"
+      }
+    }
+    stages{
+       steps{
+        build"dev"
+        echo"dev
+       }
+    }
+    rollback{
+        when" if deployment is failure"
+    }
+}

@@ -1,0 +1,97 @@
+# 1. What is AWS?
+Answer: Amazon Web Services (AWS) is a cloud computing platform that provides a variety of services like computing power, storage options, networking, and databases on a pay-as-you-go pricing model.
+
+# 2. What are the main benefits of AWS?
+Scalability: Easily scale resources up or down.
+Flexibility: Wide variety of services and tools.
+Cost-effective: Pay-as-you-go model.
+Reliability: High availability with multiple regions.
+Security: Strong compliance and built-in security features.
+
+# 3. What is the difference between EC2 and S3?
+EC2: Elastic Compute Cloud is a service that provides resizable compute capacity for hosting applications.
+S3: Simple Storage Service is used to store and retrieve data objects.
+
+# 4. What is the use of an AMI in AWS?
+Answer: An Amazon Machine Image (AMI) provides the information required to launch an instance, including the operating system, application server, and application software.
+
+# 5. What are Regions and Availability Zones in AWS?
+Regions: Geographically isolated locations with multiple data centers.
+Availability Zones (AZs): Data centers within a region that are isolated but interconnected for fault tolerance.
+
+Intermediate Questions
+
+# 6. What is the difference between Security Groups and Network ACLs?
+Security Groups: Virtual firewalls for EC2 instances; operate at the instance level and are stateful.
+Network ACLs: Act as a firewall for subnets; operate at the subnet level and are stateless.
+
+# 7. Explain how auto-scaling works in AWS.
+Answer: Auto-scaling ensures that your application scales up or down based on predefined conditions, such as CPU utilization or network traffic, using Launch Configurations or Auto Scaling Groups.
+
+# 8. What are AWS Lambda’s use cases?
+Event-driven applications (e.g., image processing, IoT).
+Running serverless APIs.
+Data transformations for analytics.
+Scheduled tasks like cron jobs.
+
+# 9. How does AWS Elastic Load Balancer (ELB) work?
+Answer: ELB automatically distributes incoming application traffic across multiple targets, such as EC2 instances or containers, in one or more Availability Zones.
+
+# 10. What is Amazon RDS, and what are its advantages?
+Answer: Amazon Relational Database Service is a managed database service. Advantages include automatic backups, scalability, high availability, and automated updates.
+
+Advanced Questions
+# 11. How do you secure data in AWS?
+Use IAM policies for access control.
+Encrypt data at rest with AWS KMS or SSE.
+Encrypt data in transit with TLS/SSL.
+Use VPCs and Security Groups.
+Regularly audit with AWS CloudTrail and AWS Config.
+
+# 12. What is the difference between instance store and EBS volumes?
+Instance Store: Temporary storage tied to the lifecycle of an EC2 instance.
+EBS (Elastic Block Store): Persistent storage that remains even after instance termination.
+
+# 13. What is the purpose of Amazon CloudFront?
+Answer: CloudFront is a Content Delivery Network (CDN) service that securely delivers content (e.g., websites, videos) with low latency and high transfer speed.
+
+# 14. What is AWS VPC, and how is it used?
+Answer: A Virtual Private Cloud (VPC) allows you to define and launch AWS resources in a logically isolated virtual network. It provides control over IP address ranges, subnets, route tables, and gateways.
+
+# 15. How do you implement high availability in AWS?
+Use multiple Availability Zones (multi-AZ).
+Set up Auto Scaling and Elastic Load Balancers.
+Use RDS Multi-AZ deployments.
+Employ cross-region replication for disaster recovery.
+
+
+Scenario-Based Questions
+# 16. How would you migrate an on-premises application to AWS?
+Analyze application requirements.
+Select appropriate AWS services (e.g., EC2, S3, RDS).
+Use AWS Database Migration Service (DMS) for database migration.
+Leverage AWS Snowball for large data transfers.
+Test and validate the application post-migration.
+
+# 17. How do you troubleshoot EC2 performance issues?
+Check CPU/memory utilization using CloudWatch.
+Examine disk I/O and network bandwidth.
+Use VPC Flow Logs to analyze network traffic.
+Verify instance type suitability.
+
+# 18. What are the steps to set up an S3 bucket policy for public access?
+Create an S3 bucket.
+Configure bucket permissions using a JSON policy granting public read access.
+Test access using a public URL.
+
+# 19. How do you set up cross-region replication for an S3 bucket?
+Enable versioning for both source and destination buckets.
+Set up IAM permissions for replication.
+Configure replication rules in the source bucket.
+
+# 20. What are AWS CloudFormation stacks, and why are they useful?
+Answer: CloudFormation stacks allow you to define and manage AWS infrastructure as code using templates. This enables consistent, repeatable, and automated deployments.
+
+Interview questions:
+ 1.how to secure terraform securely?
+ answer: terraform lint

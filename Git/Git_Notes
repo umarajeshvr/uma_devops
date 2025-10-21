@@ -1,0 +1,90 @@
+	
+# To login into git on below commands    
+"git version
+git config --global user.name ""umarajeshvr""
+git config --global user.email ""uma98868@gmail.com""
+git config --global --list
+git clone github-https-url # paste in your GitHub HTTPS clone URL
+
+# To add and Set up to remote git repo 
+git remote -v
+git remote add origin <REMOTE_URL>  --> To add first time push to github
+git remote set-url origin https://github.com/umarajeshvr/uma_devops.git
+git remote set-url origin git@github.com:umarajeshvr/uma_devops.git
+
+# To Create ssh keys to git hub config
+
+git credential-cache exit
+
+ssh-keygen -t rsa -b 4096 -C "uma98868@gmail.com"
+
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/id_rsa
+
+git add . 
+git commit -m "Resolved merge conflicts"
+git push origin main 
+
+
+git push --force origin main  --> but (with caution):
+
+
+
+
+git add .
+git commit -m "Your commit message"
+Push the Branch to the Remote Repository: To push your local branch to the remote Git repository, use the git push command followed by the name of the remote repository (e.g., origin) and the name of the local branch. The syntax is as follows:
+
+git push <remote> <local-branch-name>
+For example, if you want to push a branch named feature-branch to the remote repository named origin, you would run:
+
+git push origin feature-branch
+This will push the local branch to the remote repository, making it available for others to pull and work with.
+
+
+# Logs
+
+What is a commit in Git?
+
+Answer: A commit is a snapshot of the changes made to the files in a repository. Each commit includes a unique identifier, a message describing the changes, and a reference to the previous commit, creating a chain of commits forming the project's history.
+
+#git commit -m "updated"
+History commits  
+**git log**
+**#git log --oneline**
+**git log --graph**
+
+--oneline: Shows each commit on a single line.
+--decorate: Adds names of branches or tags of commits shown.
+--all: Shows all branches, including remote branches.
+
+**#git show <commit-hash>** This command allows you to view the details of a specific commit, including the changes made in that commit.
+#git diff abc123..def456
+#git blame <file> : This command shows who last modified each line of a file, along with the commit hash and author details.
+#git log --author=JohnDoe
+#git log --grep="bug fix" **To search for commits that contain a specific keyword or phrase in their commit messages, use this command.**
+#git log --since="2022-01-01"
+#git log --until="2022-12-31"
+# How do you undo the last commit in Git?** 
+
+Answer: You can undo the last commit without discarding changes using #git reset HEAD~1. If you want to discard the changes as well, you can use #git reset --hard HEAD~1. Be cautious when using these commands, as they alter the commit history.
+
+#git reset HEAD~1.
+#This command will create a new commit that undoes the changes from the last commit.
+**#git revert HEAD**
+
+# How do you create a new branch in Git?
+Answer: You can create a new branch using the command 
+**#git branch <branch_name>**
+To switch to the new branch, you use 
+**#git checkout <branch_name>** to switch branchs
+the create branch command 
+**#git checkout -b <branch_name>** 
+
+
+# Git Actions
+
+
+
+
+

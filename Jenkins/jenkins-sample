@@ -1,0 +1,50 @@
+Pipeline {
+    stages {
+        stage('Job A') {
+            steps {
+                build job: 'Job A'
+            }
+        }
+        stage('Job B') {
+            steps {
+                build job: 'Job B'
+            }
+        }
+        stage('Job C') {
+            steps {
+                build job: 'Job C'
+            }
+        }
+    }  
+}
+==============================
+# Rollback to previous version
+Pipeline {
+	stages {
+		stage('Deploy to new version') {
+			steps {
+				script {
+					Deploy to new version()
+					}
+				}
+			}
+		stage('verify Deplyment') {
+			steps {
+				script {
+					if(!is deployment successfull())
+					error(deployemnt fail, rolling back...)
+					}
+				}
+			}
+		stage('Roll back') {
+		when {
+			Expression(rollback, current.build = failed)
+			}
+			steps {
+				Script {
+					'Rollback to previous version'
+					}
+				}
+			}
+		}
+	}

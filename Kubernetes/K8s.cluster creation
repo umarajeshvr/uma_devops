@@ -1,0 +1,23 @@
+#while creating cluster by using kops to set env variables:
+
+export CLUSTER_NAME=vrrajesh.life
+export AWS_REGION=us-east-1
+export NAME=vrrajesh.life
+export KOPS_STATE_STORE=s3://k8s.vrrajesh.life
+export KUBE_EDITOR= nano
+
+
+#to create cluster :
+
+kops create cluster --name=vrrajesh.life \ --state=s3://k8s.vrrajesh.life --zones=us-east-1a,us-east-1b,us-east-1c \
+--node-count=3 --control-plane-count-3 --node-size=t3.medium --control-plane-size=t3.medium \
+--control-plane-zones=us-east-1a,us-east-1b,us-east-1c --control-plane-volume-size 10 \
+--node-volume-size 10 --ssh-public-key ~/.ssh/id-rsa.pub \
+--dns-zone=vrrajesh.life --dry-run --output yaml
+
+kops create cluster --name=vrrajesh.life \
+--state=s3://k8s.vrrajesh.life --zones=us-east-1a,us-east-1b,us-east-1c \
+--node-count=3 --control-plane-count-3 --node-size=t3.medium --control-plane-size=t3.medium \
+--control-plane-zones=us-east-1a,us-east-1b,us-east-1c --control-plane-volume-size 10 \
+--node-volume-size 10 --ssh-public-key ~/.ssh/id-rsa.pub \
+--dns-zone=vrrajesh.life --yes

@@ -1,0 +1,364 @@
+🔹 What kubectl drain Does
+
+kubectl drain <node> = "I want to safely empty this node of pods so I can take it offline."
+
+The command: kubectl drain <node-name>
+
+is used when you want to safely remove all workloads (pods) from a node so that you can:
+
+Do maintenance (upgrade kernel, patch OS, reboot)
+
+Decommission the node
+
+Upgrade Kubernetes itself 
+
+-----------------------------
+kubectl cordon <node> → Marks node unschedulable (no new pods), but does not evict running pods.
+
+kubectl uncordon <node> → Marks node schedulable again, so new pods can run there.
+
+kubectl delete node <node> → Removes node object entirely from cluster (after draining).
+=------------------------------------------------------------------
+1. What are the core components of Kubernetes architecture?
+
+👉 Answer:
+
+Control Plane → API Server, etcd, Controller Manager, Scheduler.
+
+Node Components → Kubelet, Kube Proxy, Container Runtime.
+
+API Server is the entry point, etcd stores cluster state, Scheduler assigns pods to nodes, Controller Manager ensures desired state, Kubelet runs pods, and Kube Proxy manages service networking.
+-----------------------------------------------------------------
+2. What happens when you run kubectl apply -f deployment.yaml?
+
+👉 Answer:
+
+The manifest is sent to the API Server.
+
+Stored in etcd.
+
+Deployment Controller creates ReplicaSets.
+
+Scheduler assigns pods to suitable nodes.
+
+Kubelet pulls the container image and runs it.
+
+Kube Proxy updates rules so Service can route traffic to pods.
+------------------------------------------------------------------------
+3. How do you handle zero downtime deployments?
+
+👉 Answer:
+
+Use RollingUpdate strategy with maxUnavailable=0, maxSurge=1.
+
+Ensure readinessProbes are configured (pods get traffic only when healthy).
+
+Use PodDisruptionBudgets to protect availability during maintenance.
+
+For advanced use cases → use Blue/Green or Canary Deployments with Argo Rollouts or Flagger.
+------------------------------------------------------------------------------
+4. What is the difference between CNI and CSI in Kubernetes?
+
+👉 Answer:
+
+CNI (Container Network Interface) → provides networking for pods (Calico, Flannel, Cilium).
+
+CSI (Container Storage Interface) → provides persistent storage for pods (EBS, Ceph, NFS drivers).
+-----------------------------------------------------------------------------
+5. How do you troubleshoot a pod in CrashLoopBackOff?
+
+👉 Answer:
+
+Check logs: kubectl logs <pod>.
+
+Check pod events: kubectl describe pod <pod>.
+
+Look for misconfigured probes or missing config/secrets.
+
+Verify resource limits (OOMKilled?).
+
+Debug InitContainers if present.
+---------------------------------------------------------------------
+6. How do you drain a node safely?
+
+👉 Answer:
+
+kubectl drain <node> --ignore-daemonsets --delete-emptydir-data.
+
+It cordons the node, evicts pods safely, respects PodDisruptionBudgets, and reschedules workloads on other nodes.
+
+DaemonSet pods and static pods are skipped.
+-----------------------------------------------------------------
+7. What are Taints and Tolerations in Kubernetes?
+
+✅ Summary:
+Taint = Node restriction (“keep pods away unless allowed”).
+Toleration = Pod permission (“I’m allowed to run on that restricted node”).
+Together, they give you fine control over where pods run.
+
+1. Taints (Node-level Rule)
+
+Applied to nodes.
+
+They repel pods that don’t have matching tolerations.
+kubectl taint nodes <node-name> key=value:effect
+Effects can be:
+
+NoSchedule → don’t schedule new pods unless tolerated.
+
+PreferNoSchedule → try to avoid, but not guaranteed.
+
+NoExecute → evict existing pods unless tolerated.
+eg: kubectl taint nodes node1 dedicated=critical:NoSchedule
+➡️ This means: “Node1 is only for critical workloads. Don’t schedule other pods here.”
+
+2. Tolerations (Pod-level Permission)
+
+Applied to pods in their YAML.
+
+They let pods run on nodes with matching taints.
+➡️ This pod tolerates the taint dedicated=critical:NoSchedule, so it can run on node1.
+
+3. Real-World Use Cases
+
+Critical workloads → Taint nodes so only critical apps can run there.
+
+GPU nodes → Taint GPU nodes so only ML/AI workloads run there.
+
+Dedicated environments → Taint staging/test nodes so prod workloads don’t accidentally land there.
+---------------------------------------------------------
+8. How do you debug Service not reaching pods?
+
+👉 Answer:
+
+Check endpoints: kubectl get endpoints <svc>.
+
+If empty → label mismatch between Service and pods.
+
+If endpoints exist → check NetworkPolicy or CNI plugin.
+
+Exec into pod → test DNS resolution (nslookup <svc>).
+
+Check Kube Proxy logs.
+
+9. How do you secure workloads in Kubernetes?
+
+👉 Answer:
+
+RBAC → restrict user/service account access.
+
+NetworkPolicies → restrict pod-to-pod communication.
+
+PodSecurity (PSA) or OPA/Gatekeeper → enforce security policies (no root user, no hostPath).
+
+Secrets encryption at rest → protect sensitive data.
+
+mTLS / service mesh → encrypt pod-to-pod traffic.
+
+10. How do you monitor and log in Kubernetes?
+
+👉 Answer:
+
+Metrics → Metrics-server, Prometheus + Grafana.
+
+Logs → EFK/ELK stack (Fluentd/Fluentbit, Elasticsearch, Kibana).
+
+Tracing → Jaeger, OpenTelemetry.
+
+Use alerts with Alertmanager for node/pod failures.
+
+12. Explain difference between Deployment, StatefulSet, and DaemonSet.
+
+👉 Answer:
+
+Deployment → Stateless apps, replica scaling.
+
+StatefulSet → Stateful apps, stable identity, ordered startup, persistent storage.
+
+DaemonSet → Runs one pod per node (logging agents, CNI, monitoring agents).
+
+13. How do you scale Kubernetes applications?
+
+👉 Answer:
+
+Horizontal Pod Autoscaler (HPA) → scales pods based on CPU/memory/custom metrics.
+
+Cluster Autoscaler → adds/removes nodes dynamically.
+
+Vertical Pod Autoscaler (VPA) → adjusts resource requests/limits automatically.
++++++++++++++++++++++++
+1. Horizontal Pod Autoscaler (HPA)
+
+👉 What it does: Adds or removes pods in a deployment based on CPU, memory, or custom metrics.
+
+Example: You have a web app with 3 pods. Suddenly traffic spikes.
+
+HPA sees average CPU > 80%.
+
+It automatically increases pods from 3 → 6.
+
+When traffic drops, it scales down back to 3.
+
+Command Example: kubectl autoscale deployment myapp --cpu-percent=80 --min=3 --max=10
+This means: keep CPU at 80%, scale between 3 and 10 pods.
+
+✅ Best for handling fluctuating traffic.
+
+2. Cluster Autoscaler (CA)
+
+👉 What it does: Adjusts the number of nodes (VMs) in the cluster when pods can’t be scheduled due to lack of resources.
+
+Example: You set HPA to scale pods, but nodes are already full (no CPU/memory left).
+
+Cluster Autoscaler requests the cloud provider (AWS/Azure/GCP) to add a new node.
+
+New node joins the cluster, pods are scheduled.
+
+When extra nodes are not needed, CA removes them to save costs.
+
+✅ Best for cloud environments where nodes can be created/destroyed dynamically.
+
+3. Vertical Pod Autoscaler (VPA)
+
+👉 What it does: Adjusts the CPU/Memory requests & limits of a pod automatically.
+
+Example: A database pod is always under-provisioned (keeps running out of memory).
+
+VPA suggests/request increases memory from 1Gi → 2Gi.
+
+Pod restarts with updated resource requests.
+
+✅ Best for workloads with predictable growth (like DBs or batch jobs).
+
+🔑 Summary (When to Use What?)
+
+HPA → Scale pods (most common, good for web apps & APIs).
+
+Cluster Autoscaler → Scale nodes (when pods can’t be scheduled).
+
+VPA → Scale resources per pod (good for resource-heavy workloads like DB).
+
+👉 Together, they make apps highly elastic:
+
+HPA handles pod scaling.
+
+CA handles node scaling.
+
+VPA handles pod resource tuning.
+========================
+
+14. What’s the difference between Readiness, Liveness, and Startup Probes?
+
+👉 Answer:
+
+ReadinessProbe → Controls traffic flow (only ready pods get traffic).
+
+LivenessProbe → Restarts unhealthy containers.
+
+StartupProbe → Useful for slow-starting apps, prevents premature probe failures.
+
+15. What are PodDisruptionBudgets (PDBs)?
+
+👉 Answer:
+
+PDBs limit how many pods of a replicated application can be disrupted at once.
+
+Protects availability during node drains or voluntary disruptions.
+
+Example: minAvailable=2 for a 3-pod deployment → at least 2 must always run.
+
+16. How do you implement multi-tenancy in Kubernetes?
+
+👉 Answer:
+
+Use Namespaces for logical separation.
+
+Apply ResourceQuotas and LimitRanges to restrict usage.
+
+Use RBAC to isolate access.
+
+Optionally → deploy separate clusters with federation for strict isolation.
+
+17. How do you handle image security in Kubernetes?
+
+👉 Answer:
+
+Use private registries with imagePullSecrets.
+
+Enable image scanning (Trivy, Aqua, Clair).
+
+Use admission controllers to block unscanned/unapproved images.
+
+Pin to specific image digests (@sha256:...).
+
+18. What happens if you delete a pod manually?
+
+👉 Answer:
+
+If managed by a controller (Deployment, ReplicaSet, StatefulSet), it will be recreated automatically.
+
+If standalone pod → it won’t come back.
+
+19. How do you expose services externally in Kubernetes?
+
+👉 Answer:
+
+NodePort → Exposes service on all nodes.
+
+LoadBalancer → Provisions external LB (cloud).
+
+Ingress → Manages multiple HTTP routes with a single LB.
+
+20. How do you upgrade Kubernetes cluster in production?
+
+👉 Answer:
+
+Upgrade control plane nodes first (cordon, drain, upgrade, uncordon).
+
+Upgrade worker nodes one by one.
+
+Use PDBs to ensure availability.
+
+Validate etcd health and backup before upgrades.
+=================================
+🩺 What are Probes in Kubernetes?
+
+A probe is a diagnostic check performed by the Kubelet (the agent running on each node) inside a container to determine its health and readiness.
+
+There are three types of probes:
+
+Probe Type	Purpose
+> Liveness Probe	Checks if the container is alive (still running and not stuck). If it fails, K8s restarts the container.
+> Readiness Probe	Checks if the container is ready to receive traffic. If it fails, K8s removes the pod from the Service endpoint (stops sending traffic).
+> Startup Probe	Checks if the application has started successfully. Used for slow-starting apps to avoid premature restarts.
+
+livenessProbe:
+  httpGet:
+    path: /health
+    port: 8080
+  initialDelaySeconds: 10
+  periodSeconds: 5
+  failureThreshold: 3
+Meaning:
+Wait 10 seconds after container start
+Every 5 seconds, hit /health on port 8080
+If it fails 3 times in a row → restart the container
+
+readinessProbe:
+  tcpSocket:
+    port: 8080
+  initialDelaySeconds: 5
+  periodSeconds: 5
+Meaning:
+K8s checks if the app can accept TCP connections
+If probe fails, pod is not part of Service load-balancing
+
+startupProbe:
+  exec:
+    command: ["cat", "/tmp/ready"]
+  failureThreshold: 30
+  periodSeconds: 5
+
+Meaning:
+Run the command every 5 seconds
+If it doesn’t succeed within 30 tries (~150 sec), container fails

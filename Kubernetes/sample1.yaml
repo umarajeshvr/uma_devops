@@ -1,0 +1,91 @@
+apiversion:v1
+kind:Service
+metadata:
+  name: my-cluster-ip-service
+spec:
+  selector:
+    app: service
+    ports:
+      - protocol: TCP
+        port: 80
+        targetPort: 8080
+    type: ClusterIP
+
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+ name: my-node-port-service
+spec:
+  selector:
+    app: my-app
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+      nodePort: 30007
+  type: NodePort
+
+apiVersion: v1
+kind : Deployment
+metadata: 
+  name: my-deployment
+spec: 
+  replicas: 3
+  selector:
+    app: my-app
+  telplate:
+    metadata:
+      labels:
+        app: my-app
+    spec:
+      name: nginx
+      image: nginx
+============================
+#autoscaling
+apiVersion: v1
+kind: Deployment
+metadata:
+  name: my-deployement
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: my-app
+  template:
+    metadata:
+    labels:
+    app: my-app
+  spec:
+    containers: 
+    - name: nginx
+      image: nginx
+      ports:
+      - container port: 80
+    resource:
+      request:
+        cpu: "100m"
+        memory: "128mi"
+      limit:
+        cpu: "500"
+        memory: "256mi"
+apiVersion: v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: ngix-hpa
+spec:
+  scaleTargetRef:
+  apiVersion: v1
+  kind: Deployment
+  name: my-deployement
+min-replicas:2
+maximum-replicas:8
+metrics:
+- type:resource
+  resource:
+    name: cpu
+    target:
+      type: utilization
+      avgUtilization :50
+

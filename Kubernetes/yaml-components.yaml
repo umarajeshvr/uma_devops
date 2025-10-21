@@ -1,0 +1,206 @@
+📌 Common Components in a Kubernetes YAML File
+✅ In summary:
+Pod → single container(s)
+Deployment → scalable Pods with updates
+Service → networking/exposing apps
+ConfigMap / Secret → app configuration
+Ingress → HTTP routing
+PV/PVC → storage
+
+1. apiVersion
+What it is: Specifies the Kubernetes API version used for the object.
+Why/when to use: Ensures compatibility with the right resource type.
+Example:
+apiVersion: apps/v1
+apps/v1 → for Deployments, StatefulSets, DaemonSets
+v1 → for Services, ConfigMaps, Pods
+
+2. kind
+What it is: Defines the type of Kubernetes resource.
+Why/when to use: Tells K8s what object to create (Pod, Deployment, Service, etc.).
+Example:
+kind: Deployment
+
+3. metadata
+What it is: Basic info about the object (name, labels, namespace, annotations).
+Why/when to use: Helps in identifying and grouping objects.
+Example:
+metadata:
+  name: my-app
+  namespace: dev
+  labels:
+    app: web
+
+4. spec
+What it is: The desired state/configuration of the object.
+Why/when to use: Defines how the resource should behave.
+Example: (for Deployment)
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: web
+  template:
+    metadata:
+      labels:
+        app: web
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.25
+        ports:
+        - containerPort: 80
+
+🔹 Pod
+Smallest deployable unit, contains 1+ containers.
+Use when you need just a single instance of a container.
+apiVersion: v1
+kind: Pod
+metadata:
+  name: my-pod
+spec:
+  containers:
+  - name: nginx
+    image: nginx
+
+🔹 Deployment
+Manages replicas of Pods, supports rolling updates.
+Use when you need scalable, self-healing workloads.
+example:
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: web
+  template:
+    metadata:
+      labels:
+        app: web
+    spec:
+      containers:
+      - name: nginx
+        image: nginx
+
+
+🔹 Service
+Exposes Pods to internal/external traffic.
+Types: ClusterIP (internal), NodePort (external on node), LoadBalancer (cloud LB).
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-service
+spec:
+  type: ClusterIP
+  selector:
+    app: web
+  ports:
+  - port: 80
+    targetPort: 80
+
+🔹 ConfigMap
+Stores non-sensitive configuration data.
+Use when you want to externalize config from Pods.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: my-config
+data:
+  APP_ENV: "dev"
+  LOG_LEVEL: "debug"
+
+🔹 Secret
+Stores sensitive data (passwords, tokens).
+Use when credentials are needed.
+apiVersion: v1
+kind: Secret
+metadata:
+  name: my-secret
+type: Opaque
+data:
+  DB_PASSWORD: bXlwYXNzd29yZA==   # base64 encoded
+
+🔹 1. matchLabels
+Where it appears: inside spec.selector.
+Purpose: Tells the Deployment which Pods it should manage.
+It matches the labels in the Pod template.
+Example:
+spec:
+  selector:
+    matchLabels:
+      app: web
+This means:
+👉 The Deployment will look for Pods with label app=web and manage them (scale them, update them, restart if failed).
+If Pods don’t have that label → Deployment ignores them.
+
+
+🔹 Ingress
+Routes external HTTP/HTTPS traffic into cluster services.
+Use when you need domain-based routing.
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: my-ingress
+spec:
+  rules:
+  - host: myapp.example.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: my-service
+            port:
+              number: 80
+
+🔹 PersistentVolume (PV) & PersistentVolumeClaim (PVC)
+PV → storage resource in cluster.
+PVC → request for storage.
+Use when your app needs persistent storage.
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: my-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+================================================================
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mypod
+spec:
+  containers:
+  - name: mypod1
+    image: sreeharshav/rollingupdate:v1
+    volumeMounts:
+     - name: testvol
+        mountPath: /tmp/testvolume
+  volumes:
+     - name: testvol
+       emptyDir: {}
+
+
+apiVersion: v2
+kind: pod
+metadata:
+  name: mypod1
+spec:
+  containers:
+    - name: mypod1
+      image: sreeharshav/rollingupdate:v1
+      volumeMounts:
+        - name: testv01
+          mountPath: /tmp/testvolume
+  volumes:
+    - name: testv01
+      emptyDir: {}

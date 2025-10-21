@@ -1,0 +1,69 @@
+HCL:
+which tool are you using for CICD and how you will do?
+Is there any limit to create jobs in jenkins?
+how many providers ur using in terraform?
+latest version of any azure provider factor?
+how many build provisioners available in terraform?
+how many versional control supported by terraform?
+Does terraform support multiple proider deployments?
+can we use terraform as on premises infra aswell? is there difference b/w on cloud and on premises infrastructure whilen interacting with terraform? 
+ans : integration with API is required for on premises.
+any information on private module registry? sentinal polices?
+there is code written in terrfaorm , wt is the cmd to check the configuration is valid or not? 
+ans: terraform validate
+suppose if u write down the code in terraform, and so the changes made by the current configuaration so wt cmd you will use?
+if u want to destroy the previous infrastructure wt is the cmd?
+do u knw terraform desingned perspectice in which language they hv written down?
+wt kind of database used in terraform?
+Ans: posgress sql
+suppose u hv write down the code u hv initiated the code, check the plan and also apply, so wt would be the result and where exactly , wt extension of the file saving data?
+which version have u used in terraform?
+do u hv any inside of terraform D?
+ans: its plugin
+if the code has be written, so how many important files has been created by default?
+ans: 4 fils, terraform .straint, terraform .tv war,terraform.provider.tf, terraform instace tva.
+# # # can we use terraform as post provisioning acitivity aswell?
+wt is IAC?
+=============================================
+PWC:
+# 1. do u create the k8 cluster?  how the dns will create and where req will go?
+which load balencer do u use?
+any ingress controller ur using in k8s? which ingress controller?
+ans: nginx
+wt is service in k8s?
+how many deployments are available in k8s?
+how to create pod in k8s?
+in yaml file there is kind right, how many kind u hv seen till now?
+most frequest which deplyment u hv used?
+*wt is the defauld kind?
+ans: deployment, statefull set, daemonset, pod
+*where do u use daemonset and how do u use it?
+*wt is HPA?
+*wt is VPA?
+*hv u worked with persistent volume?
+*do u hv access to setup AKS and EKS cluster?
+*if people are already created infrastrure manually so how u would get that into terraform?
+suppose ur working on project has 2 services, 5VMS per service, 10 vms u already created by using terraform, now u want move this vms custer asking create separate terraform project and move out this 5vms to that without connevcting to azure?
+ans: terrform state mv
+where does terrfaorm code will present? 
+till now wt n all resources created by using teeraform?
+=======================================================================================
+altimetric:
+
+
+*In s3 bucket there are some files in ur git repo, there is some sequell file developers are working on those files, as soon as pipeline triggers u need to snc to s3 bucket? how to create pipeline for this?
+*how jenkins will authenticate to aws?
+*wt is multistage docker file?
+*u r creating RDS instance, while creating instance u need to pass the db password to that n Dbpassword is store in vault how u will fetch it in terraform? how canu use that in ur terraform code?
+*there is one ec2 instance which is created by terraform, u want do AMI upgrade on that without any down time?
+* an application which is running on pod, cluster need to access the aws service how u will make that happen?
+*there is a cluster there are some node are attched to cluster u want only special type of load can use that node ?how can u restrict to ur deployemnt ur pod should be provisioned on node how do u stop that?>
+
+
+
+
+
+
+
+
+

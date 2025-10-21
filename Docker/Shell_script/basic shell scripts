@@ -1,0 +1,142 @@
+Basics of Shell Scripting
+What is a shell script?
+
+A shell script is a file containing a series of commands written in a shell programming language (like Bash) that automate tasks on Unix/Linux systems.
+How do you make a script executable?
+
+Use the chmod +x script.sh command to make it executable.
+What are some commonly used shells in Linux?
+
+Bash, Zsh, Ksh, Tcsh, Fish.
+How do you execute a shell script?
+
+Use ./script.sh or sh script.sh (though ./ ensures execution in the specified shell).
+File Handling and I/O
+How do you redirect output to a file?
+
+Use > for overwrite and >> for appending, e.g., echo "text" > file.txt.
+What is the difference between > and >> in shell scripting?
+
+> overwrites a file, while >> appends to the file.
+How do you read a file line by line in a shell script?
+
+bash
+Copy
+Edit
+while read line; do
+    echo $line
+done < file.txt
+Variables and Functions
+What are positional parameters in shell scripting?
+
+$0 is the script name, $1, $2, etc., are arguments passed to the script. $# is the count of arguments.
+What is the difference between "$variable" and $variable?
+
+"$variable" preserves whitespace and prevents word splitting, while $variable might not.
+How do you define and call a function in shell scripting?
+
+bash
+Copy
+Edit
+my_function() {
+    echo "This is a function"
+}
+my_function
+How can you pass arguments to a function?
+bash
+Copy
+Edit
+my_function() {
+    echo "First Arg: $1"
+    echo "Second Arg: $2"
+}
+my_function arg1 arg2
+Conditionals and Loops
+What is the difference between [ ] and [[ ]] in bash?
+[ ] is POSIX compliant and works in most shells, while [[ ]] is bash-specific and supports advanced features like regex matching.
+How do you use if-else in a shell script?
+bash
+Copy
+Edit
+if [ $a -gt $b ]; then
+    echo "a is greater"
+else
+    echo "b is greater"
+fi
+Write a script to check if a file exists.
+bash
+Copy
+Edit
+if [ -f "filename" ]; then
+    echo "File exists"
+else
+    echo "File does not exist"
+fi
+How do you write a for loop in shell scripting?
+bash
+Copy
+Edit
+for i in {1..5}; do
+    echo "Number: $i"
+done
+What is the difference between for, while, and until loops?
+for: Iterates over a list of values.
+while: Continues as long as the condition is true.
+until: Continues until the condition becomes true.
+Advanced Topics
+How do you handle errors in a shell script?
+Use set -e to stop execution on errors or manually check exit statuses using $?.
+What is trap in shell scripting?
+trap is used to capture signals (e.g., SIGINT) and execute cleanup commands before the script exits.
+How do you debug a shell script?
+Use bash -x script.sh or include set -x in the script.
+How do you schedule a shell script using cron?
+Add an entry to the crontab using crontab -e, e.g., 0 5 * * * /path/to/script.sh.
+What is the difference between $@ and $* in shell scripting?
+$@ treats arguments as separate words, while $* treats them as a single word.
+Pipelines and Process Handling
+What does the | symbol do in shell scripting?
+It pipes the output of one command to another as input.
+How do you check if a process is running?
+bash
+Copy
+Edit
+if pgrep "process_name" > /dev/null; then
+    echo "Process is running"
+else
+    echo "Process is not running"
+fi
+How do you terminate a process in a script?
+Use kill -9 PID.
+Real-World Scenarios
+Write a script to monitor disk usage and alert if it exceeds 80%.
+bash
+Copy
+Edit
+usage=$(df / | grep '/' | awk '{print $5}' | sed 's/%//')
+if [ $usage -gt 80 ]; then
+    echo "Disk usage is high: $usage%"
+fi
+Write a script to automate log rotation.
+bash
+Copy
+Edit
+log_file="/var/log/app.log"
+mv $log_file "${log_file}-$(date +%F)"
+touch $log_file
+How do you fetch data from an API in a shell script?
+Use curl or wget.
+bash
+Copy
+Edit
+curl -X GET "https://api.example.com/data"
+Questions on Optimization and Best Practices
+How do you ensure portability in shell scripts?
+Use /bin/sh for basic scripts, avoid bash-specific features, and test in multiple environments.
+What are best practices for writing shell scripts?
+Use meaningful variable names.
+Include comments.
+Check for errors and handle edge cases.
+Use functions for reusable code.
+How do you secure sensitive information in scripts (e.g., passwords)?
+Avoid hardcoding sensitive information. Use environment variables, encrypted files, or secret management tools like AWS Secrets Manager or Vault.

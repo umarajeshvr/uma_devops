@@ -1,0 +1,193 @@
+
+how to automate azure app service with terraform and integrate with azure pipelines
+
+Goal
+
+✅ Terraform → Automates infrastructure provisioning (App Service, RG, Plan)
+✅ Azure DevOps Pipeline → Automates Terraform execution (init, plan, apply)
+
+* Pipeline Flow Summary
+Step	Action
+1️⃣	Developer pushes code to repo
+2️⃣	Pipeline triggers automatically
+3️⃣	Terraform init connects to Azure backend
+4️⃣	Terraform plan generates execution plan
+5️⃣	Terraform apply creates App Service, Plan, RG
+✅	Output: App Service URL deployed automatically
+
+🧩 1️⃣ Folder Structure
+azure-appservice-pipeline/
+│
+├── main.tf
+├── variables.tf
+├── outputs.tf
+└── azure-pipelines.yml
+terraform {
+  required_providers {
+    azurerm = {
+      source  = "hashicorp/azurerm"
+      version = "~>3.90"
+    }
+  }
+}
+
+provider "azurerm" {
+  features {}
+}
+
+# Resource Group
+resource "azurerm_resource_group" "rg" {
+  name     = var.resource_group_name
+  location = var.location
+}
+
+# App Service Plan
+resource "azurerm_service_plan" "plan" {
+  name                = "${var.prefix}-plan"
+  location            = azurerm_resource_group.rg.location
+  resource_group_name = azurerm_resource_group.rg.name
+  os_type             = "Linux"
+  sku_name            = "B1"
+}
+
+# App Service (Web App)
+resource "azurerm_linux_web_app" "webapp" {
+  name                = "${var.prefix}-webapp"
+  location            = azurerm_resource_group.rg.location
+  resource_group_name = azurerm_resource_group.rg.name
+  service_plan_id     = azurerm_service_plan.plan.id
+
+  site_config {
+    application_stack {
+      node_version = "18-lts"
+    }
+  }
+
+  app_settings = {
+    "WEBSITE_RUN_FROM_PACKAGE" = "1"
+  }
+}
+
+
+variable "resource_group_name" {
+  type        = string
+  default     = "rg-tf-appservice-demo"
+}
+
+variable "location" {
+  type        = string
+  default     = "East US"
+}
+
+variable "prefix" {
+  type        = string
+  default     = "tfhtml"
+}
+
+variable "resource_group_name" {
+  type        = string
+  default     = "rg-tf-appservice-demo"
+}
+
+variable "location" {
+  type        = string
+  default     = "East US"
+}
+
+variable "prefix" {
+  type        = string
+  default     = "tfhtml"
+}
+
+
+output "webapp_url" {
+  value = azurerm_linux_web_app.webapp.default_hostname
+}
+
+3️⃣ Store Terraform State in Azure Storage (Best Practice)
+
+You need a Terraform backend to store the state file remotely (so multiple pipelines/engineers can share it safely).
+
+Create Azure storage:
+az group create --name rg-tfstate --location eastus
+az storage account create --name tfstateaccount123 --resource-group rg-tfstate --location eastus --sku Standard_LRS
+az storage container create --name tfstate --account-name tfstateaccount123
+Then modify Terraform backend:
+terraform {
+  backend "azurerm" {
+    resource_group_name  = "rg-tfstate"
+    storage_account_name = "tfstateaccount123"
+    container_name       = "tfstate"
+    key                  = "terraform.tfstate"
+  }
+}
+
+⚙️ 4️⃣ Azure DevOps Pipeline (CI/CD)
+azure-pipelines.yml
+trigger:
+  branches:
+    include:
+      - main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  TF_VAR_resource_group_name: 'rg-tf-appservice-demo'
+  TF_VAR_location: 'East US'
+  TF_VAR_prefix: 'tfhtml'
+
+steps:
+# 1️⃣ Checkout code
+- task: Checkout@1
+
+# 2️⃣ Install Terraform
+- task: TerraformInstaller@1
+  inputs:
+    terraformVersion: '1.6.6'
+
+# 3️⃣ Terraform Init
+- task: TerraformTaskV4@4
+  inputs:
+    provider: 'azurerm'
+    command: 'init'
+    backendServiceArm: 'My-Azure-Service-Connection'   # ARM Service Connection name
+    backendAzureRmResourceGroupName: 'rg-tfstate'
+    backendAzureRmStorageAccountName: 'tfstateaccount123'
+    backendAzureRmContainerName: 'tfstate'
+    backendAzureRmKey: 'terraform.tfstate'
+
+# 4️⃣ Terraform Plan
+- task: TerraformTaskV4@4
+  inputs:
+    provider: 'azurerm'
+    command: 'plan'
+    environmentServiceNameAzureRM: 'My-Azure-Service-Connection'
+
+# 5️⃣ Terraform Apply (auto-approve)
+- task: TerraformTaskV4@4
+  inputs:
+    provider: 'azurerm'
+    command: 'apply'
+    environmentServiceNameAzureRM: 'My-Azure-Service-Connection'
+    commandOptions: '-auto-approve'
+
+5️⃣ Setup Service Connection in Azure DevOps
+
+Go to:
+Project Settings → Service connections → New → Azure Resource Manager → Service principal (automatic)
+Give it a name like: My-Azure-Service-Connection
+
+This allows the pipeline to authenticate and deploy Terraform resources in Azure.
+
+6. Verify Deployment
+
+After the pipeline finishes, check:
+https://<prefix>-webapp.azurewebsites.net
+
+✅ Summary
+Tool	Purpose
+Terraform	Automates infrastructure creation
+Azure Pipelines	Runs Terraform automatically on commit
+Service Connection	Secure authentication to Azure
+Azure Storage Backend	Stores Terraform state remotely

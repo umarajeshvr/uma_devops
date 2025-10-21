@@ -1,0 +1,34 @@
+
+
+Categories of Ansible Modules
+# Cloud Modules:
+Manage resources for AWS, Azure, GCP, OpenStack, etc.
+Examples: ec2, azure_rm_vm, gcp_compute_instance.
+
+# System Modules:
+Manage user accounts, services, packages, files, etc.
+Examples: user, service, apt, yum, file.
+
+# Networking Modules:
+Configure routers, switches, and firewalls.
+Examples: ios_config, netconf, nxos_command.
+
+# Database Modules:
+Manage databases like MySQL, PostgreSQL, MongoDB, etc.
+Examples: mysql_db, postgresql_user.
+
+# Security Modules:
+Handle certificates, SSH keys, firewalls, and security policies.
+Examples: ufw, iptables, openssl_certificate.
+
+# Container Modules:
+Work with Docker, Kubernetes, Podman, etc.
+Examples: docker_container, k8s, podman_image.
+
+# Storage Modules:
+Manage storage solutions like NFS, Ceph, AWS EBS, etc.
+Examples: lvol, aws_s3, ceph_key.
+
+# Windows Modules:
+Handle Windows-specific tasks like registry, services, and updates.
+Examples: win_service, win_user, win_updates.

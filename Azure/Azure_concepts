@@ -1,0 +1,481 @@
+1. Azure Basics
+
+Cloud Service Model – Azure provides:
+
+IaaS (Infrastructure as a Service): Virtual Machines, Networking, Storage.
+
+PaaS (Platform as a Service): App Services, Azure SQL Database.
+
+SaaS (Software as a Service): Microsoft 365, Dynamics 365.
+
+Global Infrastructure
+
+Regions → Geographical locations (e.g., East US, Central India).
+
+Availability Zones (AZs) → Isolated datacenters inside a region (for redundancy).
+
+Resource Groups (RGs) → Logical containers to organize resources.
+
+Subscriptions → Billing boundary that groups resource usage.
+============================================================
+2. Azure Compute Services
+
+Azure Virtual Machines (VMs) → IaaS servers.
+
+Azure App Service → Run web & mobile apps (PaaS).
+1. What is Azure App Service?
+
+Definition:
+
+Azure App Service is a fully managed Platform as a Service (PaaS) that allows developers to build, host, and scale web apps, mobile app backends, and RESTful APIs without managing infrastructure.
+
+Key Point:
+You focus on code, while Azure handles infrastructure, patching, scaling, and load balancing.
+
+Azure Functions → Serverless event-driven code.
+
+Azure Kubernetes Service (AKS) → Managed Kubernetes.
+
+Azure Virtual Desktop (AVD) → Virtual desktop infrastructure.
+=============================================================
+3. Azure Networking      
+
+Azure Virtual Network (VNet) → Isolated network environment.
+
+Subnets → Segments within VNets.
+
+VPN Gateway → Secure connection to on-premises.
+
+ExpressRoute → Dedicated private connection to Azure.
+
+Azure Load Balancer / Application Gateway → Distributes traffic.
+
+Azure DNS → Domain name hosting.
+==================================================
+
+4. Azure Storage types
+
+Blob Storage → Unstructured data (images, videos, backups).
+
+File Storage → Shared files (SMB/NFS).
+
+Queue Storage → Message storage for async communication.
+
+Table Storage → NoSQL key-value store.
+
+Disks → Persistent storage for VMs.
+========================================
+5. Azure Databases
+
+Azure SQL Database → Managed SQL.
+
+Cosmos DB → NoSQL, globally distributed.
+🔹 Definition
+
+Azure Cosmos DB is a multi-model, distributed database that lets you store and access data across the globe with millisecond response times and automatic scalability.
+
+Azure Database for MySQL/PostgreSQL → Fully managed.
+
+Azure Synapse Analytics → Data warehouse.
+
+Azure Data Lake Storage → Big data analytics.
+
+🔹 Definition
+
+Azure Analytics = A suite of cloud-based tools designed to perform data integration, data warehousing, real-time analytics, big data processing, and AI-based insights.
+======================================================
+6. Azure Identity & Security
+
+Azure Active Directory (AAD) → Identity & access management.
+
+Role-Based Access Control (RBAC) → Fine-grained permissions.
+
+Managed Identities → Secure access without secrets.
+
+Key Vault → Store secrets, certificates, keys.
+
+Azure Security Center (Defender for Cloud) → Threat protection.
+============================================================
+7. Azure Monitoring & Management
+
+Azure Monitor → Collects metrics & logs.
+
+Application Insights → Application performance monitoring.
+
+Log Analytics → Query logs with Kusto Query Language (KQL).
+
+Azure Advisor → Best practices & cost optimization.
+
+Azure Policy → Enforce compliance rules.
+
+Azure Resource Manager (ARM) → Deployment & management framework.
+==================================================================
+8. Azure DevOps & Automation
+
+Azure DevOps → CI/CD pipelines, repos, boards.
+
+GitHub Actions → Automate workflows in GitHub.
+
+ARM Templates / Bicep / Terraform → Infrastructure as Code.
+
+Azure Automation → Runbooks, patching.
+
+Azure Logic Apps → Low-code workflows.
+==============================================================
+9. Azure Cost & Governance
+
+Subscriptions & Management Groups → Organize & manage costs.
+
+Azure Cost Management + Billing → Track & optimize spend.
+
+Reservations → Pre-pay for savings.
+
+Tags → Metadata for resources.
+
+Budgets & Alerts → Cost control.
+========================================================
+10. Azure AI, IoT & Advanced Services
+
+Azure Cognitive Services → Vision, Speech, Language AI APIs.
+
+Azure Machine Learning (AML) → ML model training & deployment.
+
+Azure IoT Hub → Connect & manage IoT devices.
+
+Event Grid / Event Hub / Service Bus → Messaging & event-driven systems.
+============================================
+wt is azure IAAS and PAAS offerings:
+
+🌩️ Azure Offerings Overview
+
+Azure (Microsoft’s cloud platform) provides three main service models:
+
+IaaS – Infrastructure as a Service
+
+PaaS – Platform as a Service
+
+SaaS – Software as a Service
+
+We'll focus on the first two since you asked about IaaS and PaaS.
+
+🧱 1️⃣ Azure IaaS (Infrastructure as a Service)
+🔹 Definition
+
+IaaS gives you the basic building blocks of cloud IT — virtualized computing resources such as servers, storage, and networking.
+You manage everything from the operating system upward, Azure manages the hardware.
+
+⚙️ You manage
+
+Operating System (Windows/Linux)
+
+Applications
+
+Middleware (e.g., IIS, Apache)
+
+Runtime
+
+Security patches, configurations
+
+☁️ Azure manages
+
+Physical servers
+
+Data center infrastructure
+
+Networking
+
+Virtualization layer
+
+🧩 Common Azure IaaS Services
+Service	Description
+Azure Virtual Machines (VMs)	Create Windows/Linux VMs for apps or workloads
+Azure Virtual Network (VNet)	Build your private network inside Azure
+Azure Load Balancer	Distribute traffic among multiple VMs
+Azure Storage	Store files, disks, and backups
+Azure Backup / Site Recovery	Disaster recovery & data protection
+Azure VPN Gateway	Connect on-prem network to Azure securely
+Example Use Case
+
+You want to migrate your on-premise servers to Azure as-is.
+You create VMs, install your OS, database, and applications manually.
+You control everything — just like a data center, but in the cloud.
+
+⚙️ 2️⃣ Azure PaaS (Platform as a Service)
+🔹 Definition
+
+PaaS gives you a ready-made platform for building, running, and deploying apps without worrying about servers or OS.
+Azure manages almost everything — you just focus on your application code.
+
+⚙️ You manage
+
+Application code
+
+Data (optional)
+
+☁️ Azure manages
+
+OS, runtime, middleware
+
+Infrastructure
+
+Scaling, availability, patching, security
+
+🧩 Common Azure PaaS Services
+Service	Description
+Azure App Service	Host web apps, REST APIs, mobile backends — auto scaling built-in
+Azure SQL Database	Managed SQL Server – no need to manage DB engine or OS
+Azure Functions	Serverless compute — run code without managing servers
+Azure Kubernetes Service (AKS)	Managed Kubernetes (somewhere between PaaS & IaaS)
+Azure Logic Apps	Automate workflows and integrations
+Azure Service Bus	Messaging between applications
+Azure API Management	Secure and publish APIs easily
+=====================================================
+1️⃣ Azure Virtual Network (VNet)
+🔹 Definition
+
+An Azure Virtual Network (VNet) is a logically isolated network in Azure that allows your resources (VMs, app services, databases, etc.) to communicate securely with each other, the internet, and on-premises networks.
+
+It’s like your own private data center network inside Azure.
+
+🔹 Key Features
+Feature	Description
+Isolation	Each VNet is isolated from other VNets (unless you connect them).
+Subnets	Divide your VNet into smaller sections (e.g., web, app, DB tiers).
+Private IPs	Azure assigns private IPs to resources inside the VNet.
+Network Security Groups (NSGs)	Control inbound/outbound traffic.
+Peering	Connect two VNets seamlessly without a VPN.
+Integration	VNets connect to Azure services like App Service Environment, AKS, etc.
+
+2️⃣ Azure VPN (Virtual Private Network)
+🔹 Definition
+
+An Azure VPN (via Azure VPN Gateway) is a secure, encrypted tunnel that connects:
+
+Your on-premises network to Azure VNet, or
+
+Two VNets in different regions.
+
+It uses IPsec/IKE protocols over the internet to ensure privacy and security.
+============================================
+1️⃣ Azure Monitor
+🔹 Definition
+
+Azure Monitor is the centralized monitoring service in Azure.
+It collects, analyzes, and acts on telemetry data (metrics, logs, traces) from:
+
+It helps you understand:
+How your applications are performing
+Whether your infrastructure is healthy
+When anomalies occur
+What it does
+
+Collects data (metrics, logs, events)
+Analyzes data (queries, visualizations)
+Alerts when something goes wrong
+Integrates with dashboards and automation
++++++++++++++++++++++++++++++
+2️⃣ Log Analytics
+🔹 Definition (where all monitoring data is stored, queried, and analyzed.”)
+
+Log Analytics is a feature inside Azure Monitor.
+It’s a workspace where all logs (activity logs, metrics, diagnostics, etc.) are collected and stored for querying and analysis using Kusto Query Language (KQL).
+
+🔹 Purpose
+It helps you query logs, detect issues, and analyze root causes.
+
+🔹 Example👇
+Azure Monitor detects high CPU on your VM.
+You open Log Analytics Workspace and run a KQL query:
+Perf
+| where ObjectName == "Processor"
+| summarize AvgCPU = avg(CounterValue) by bin(TimeGenerated, 5m)
+This shows CPU usage every 5 mins.
+You find that a specific process (w3wp.exe) spikes CPU — you’ve found the root cause.
+++++++++++++++++++++++++++++++
+Azure Security Center (Now called Microsoft Defender for Cloud)
+🔹 Definition
+
+Azure Security Center (now part of Microsoft Defender for Cloud) is a unified security management system that provides:
+Threat protection
+Security posture management
+Compliance monitoring
+for your Azure, on-premises, and hybrid environments.
+Example
+
+In your company:
+
+You deploy 10 Azure VMs and a SQL database.
+
+Defender for Cloud scans them and finds:
+
+3 VMs missing endpoint protection
+
+SQL DB not encrypted at rest
+
+It shows these under “Security Recommendations”, assigns a Secure Score = 65%,
+and tells you how to fix issues (e.g., “Enable Microsoft Defender for Servers”).
+If a VM is attacked with brute-force SSH logins, Security Center will:
+Detect the anomaly
+Alert the admin
+Suggest blocking that IP or enabling NSG rules
+==========================================================================================
+1️⃣ Azure Backup
+🔹 Definition
+
+Azure Backup is a cloud-based backup solution that automatically backs up your data — whether from Azure VMs, on-prem servers, databases, or files — to Azure Recovery Services Vault.
+
+It provides long-term data retention, encryption, and restore options.
+
+🔹 Key Features
+Feature	Description
+Automatic backups	Schedule daily/weekly backups for VMs, databases, files, etc.
+Recovery Services Vault	Central place to store and manage all backups.
+Encryption & Compression	Data is encrypted in transit and at rest.
+Retention policies	Keep backups for days, months, or years.
+Restore flexibility	Restore a full VM or specific files from a backup.
+
+2️⃣ Azure Site Recovery (ASR) — Disaster Recovery Solution
+🔹 Definition
+
+Azure Site Recovery (ASR) provides Disaster Recovery (DR) by replicating your workloads (VMs, apps, servers) from:
+
+On-premises → Azure, or
+
+Azure region → another Azure region.
+
+If your primary site goes down (power outage, natural disaster, ransomware attack),
+ASR allows you to failover to the secondary site with minimal downtime.
+
+🔁 Azure Backup vs. Azure Site Recovery
+Feature	Azure Backup	Azure Site Recovery (DR)
+Purpose	Protects & restores data	Keeps workloads running during outages
+Type	Backup solution	Business continuity solution
+Data Scope	Files, folders, VMs, DBs	Entire VM, app, or site
+Use Case	Accidental deletion, data corruption	Natural disaster, power failure, cyberattack
+Downtime	Some downtime during restore	Minimal downtime (automatic failover)
+Destination	Backup vault (same region)	Secondary Azure region or on-prem site
+=======================================
+azure serverless computing;
+
+1. Azure Functions
+
+Purpose: Run event-driven code (like AWS Lambda).
+
+Use cases:
+
+Process messages from Azure Queue Storage
+
+Respond to HTTP requests or webhooks
+
+Automate tasks (e.g., resize uploaded images in blob storage)
+
+Example:
+
+A Function triggers when a file is uploaded to Azure Blob → resizes and saves a thumbnail.
+
+⚙️ 2. Azure Logic Apps
+
+Purpose: Automate workflows with no code/low code visual designer.
+
+Use cases:
+
+Connect apps/services (e.g., Outlook, SharePoint, Salesforce)
+
+Send alerts when a file is updated
+
+Schedule data syncs between systems
+
+Example:
+
+When an email with an attachment arrives → upload file to OneDrive → notify in Teams.
+
+🌐 3. Azure Event Grid
+
+Purpose: Event routing service for building event-driven architectures.
+
+Use cases:
+
+Send events between services (Functions, Logic Apps, Blob Storage, etc.)
+
+Central event hub for microservices communication
+
+Example:
+
+When a resource changes in Azure → trigger a Function or Logic App.
+
+💬 4. Azure Event Hubs
+
+Purpose: Ingest millions of real-time events per second for analytics or streaming.
+
+Use cases:
+
+IoT data streaming
+
+Telemetry collection
+
+Real-time dashboards
+
+Example:
+
+Stream device data to Event Hub → process with Azure Stream Analytics → push to Power BI.
+
+🔄 5. Azure Service Bus
+
+Purpose: Reliable message queue between services or applications.
+
+Use cases:
+
+Decouple apps using message queues or topics
+
+Handle asynchronous workloads
+
+Example:
+
+An API sends messages to Service Bus → Azure Function processes them asynchronously.
+
+📊 6. Azure Container Apps (Serverless Containers)
+
+Purpose: Run containers without managing Kubernetes or servers.
+
+Use cases:
+
+Microservices
+
+APIs
+
+Background jobs
+
+Example:
+
+Deploy Docker containers that automatically scale to zero when idle.
+
+💡 Summary Table
+Service	Type	Description	Example Use Case
+Azure Functions	Compute	Run small pieces of code on demand	Image processing, APIs
+Logic Apps	Workflow Automation	Integrate services with visual workflows	Automate business workflows
+Event Grid	Event Routing	Manage and route events between services	Trigger events on resource changes
+Event Hubs	Streaming	Ingest and process large event streams	IoT telemetry
+Service Bus	Messaging	Reliable messaging between services	Queue-based communication
+Container Apps	Serverless Containers	Run containers with auto-scaling	Microservices APIs
+============================================
+🔹 Definition:
+Redundancy in Azure refers to duplicating resources — such as servers, storage, networking, or data — across multiple locations or systems, so that if one fails, another automatically takes over.
+
+🔹 Types of Redundancy in Azure
+Type	Description	Use Case / Example
+1. Local Redundancy (LRS)	Data is copied 3 times within a single data center in one region.	Protects against hardware failure within the same data center. (e.g., Azure Storage LRS)
+2. Zone Redundancy (ZRS)	Data is replicated across 3 Availability Zones in the same region.	If one zone goes down, data is still accessible from others.
+3. Geo-Redundancy (GRS)	Data is replicated to a secondary region hundreds of km away.	Disaster recovery protection (e.g., region-wide outage).
+4. Read-Access Geo-Redundant (RA-GRS)	Like GRS, but allows read access to the secondary region.	Useful for reading data during regional failovers.
+5. Application-Level Redundancy	Deploying apps in multiple regions or zones for high availability.	Use Traffic Manager or Front Door to route users.
+6. VM Redundancy (Availability Sets / Zones)	Multiple VMs deployed in different fault/update domains or zones.	Protects against host server or zone failure.
+===============================================
+💡 Example Mapping:
+AWS Instance Type	Closest Azure VM Equivalent
+t3.micro	B1s
+t3.medium	B2ms
+m5.large	D2s_v3
+c5.large	F2s_v2
+r5.xlarge	E4s_v3
+p3.2xlarge	NC6
+i3.large	L4s
